@@ -12,7 +12,7 @@ Coming Soon:
   * .NET
 
 = Python =
-
+{{{
 class UserInfuser()
   def __init__(self, account, api_key)
   
@@ -37,8 +37,9 @@ class UserInfuser()
   def enable_local_testing(self) 
 
   def only_sync_calls(self)
-
+}}}
 = PHP =
+{{{
 Class UserInfuser($account, $api_key)
 
 public function get_user_data($user_id)
@@ -62,7 +63,7 @@ public function enable_encryption()
 public function enable_local_testing()
 
 public function only_sync_calls()
-
+}}}
 = Java =
 Coming Soon.
 = REST or HOWTO for Other Languages =
