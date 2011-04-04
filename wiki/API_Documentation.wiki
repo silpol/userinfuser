@@ -1,0 +1,69 @@
+#summary One-sentence summary of this page.
+#labels PHP,REST,Python,Java,Featured
+
+= Introduction =
+This document describes the UserInfuser API. Current language support is:
+  * Python 
+  * Java 
+  * PHP
+
+Coming Soon:
+  * Ruby
+  * .NET
+
+= Python =
+
+class UserInfuser()
+  def __init__(self, account, api_key)
+  
+  def get_user_data(self, user_id)
+  
+  def update_user(self, user_id)
+  
+  def award_badge(self, user_id, badge_id)
+  
+  def remove_badge(self, user_id, badge_id)
+  
+  def award_points(self, user_id, points_awarded)
+  
+  def award_badge_points(self, user_id, badge_id, points_awarded, points_required) 
+
+  def get_widget(self, user_id, widget_type, height, width)
+
+  def enable_debug(self)
+
+  def enable_encryption(self)
+
+  def enable_local_testing(self) 
+
+  def only_sync_calls(self)
+
+= PHP =
+Class UserInfuser($account, $api_key)
+
+public function get_user_data($user_id)
+
+public function update_user($user_id)
+
+public function award_badge($badge_id, $user_id)
+
+public function remove_badge($badge_id, $user_id)
+
+public function award_points($user_id, $points_awarded)
+
+public function award_badge_points($badge_id, $user_id, $points_awarded, $points_required)
+
+public function get_widget($user_id, $widget_type)
+
+public function enable_debug()
+
+public function enable_encryption()
+
+public function enable_local_testing()
+
+public function only_sync_calls()
+
+= Java =
+Coming Soon.
+= REST or HOWTO for Other Languages =
+As of now we recommend using one of the implemented languages as a reference on how to do this. More documentation is coming soon.
