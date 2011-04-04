@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Client side documentation
 #labels PHP,REST,Python,Java,Featured
 
 = Introduction =
