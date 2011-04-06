@@ -1,7 +1,74 @@
 #summary Client side documentation
 #labels PHP,REST,Python,Java,Featured
-
 = Introduction =
+The client side library plugs into your server side application. The following API allows for you to register users, award points, award badges, and get widgets to render on your website.
+
+==Init==
+To use the API, first create an UserInfuser class object which takes your account email and an API key (API keys are given out once you create an account). 
+
+{{{
+userinfuser = UserInfuser(account_email, api_key);
+}}}
+
+By default, most calls are asynchronous (but you can optionally enable only synchronous calls). This means the call creates a thread to make the remote API call. This way you have little or no overhead (in terms of latency) for each call made to the userinfuser service. 
+
+==Users==
+Whenever a user logs in or signs up on your site you should call the update_user function. This function needs a unique identifier for each user. Optionally, it takes the name which shows up on the leaderboard. You can use anything for the identifier but for the optional name be wary of making it their email address or full name due to privacy reasons. 
+
+{{{
+//registering it this way makes them show up as Anonymous on the leaderboard
+userinfuser.update_user("raj@testmail.com");
+
+or 
+//this way will show an image and their name on the leaderboard
+userinfuser.update_user("raj@testmail.com", "Raj", "http://nlake44.posterous.com", "http://someurl.com/images/raj.jpg"):
+}}}
+
+==Awarding Points==
+Give points to a user by:
+{{{
+userinfuser.award_points("raj@testemail.com", 10, "the reason why");
+}}}
+The reason why you awarded the points is optional, but if you have enabled notification of points, then you may want to say why they got the points. You can also give negative points for bad behavior. 
+
+==Awarding Badges==
+To award a badge:
+{{{
+userinfuser.award_badge("raj@testemail.com", "badgename-badgetheme-private");
+
+or
+
+userinfuser.award_badge("raj@testemail.com", "badgename-badgetheme-private", "reason why", "http://link_if_they_click_the_badge.com");
+}}}
+
+==Widgets==
+The get_widget function returns iframes which you embed into your website. Current widgets are
+  * trophy_case
+  * leaderboard
+  * points
+  * rank
+  * notifier
+
+To get a widget:
+{{{
+userinfuser.get_widget("raj@testemail.com", "trophy_case", 500, 300);
+}}}
+
+The last two arguments are the height and width. They will always override the default or the setting from your account. This is because the iframe size is set on the client side. The notifier location is currently only in the bottom right corner.
+
+== Badge Points ==
+There are badges you can award only after a user has done a certain number of actions. Once the required number of badge points are attained, the badge is unlocked, and the user is notified.
+To award badge points:
+{{{
+userinfuser.award_badge_points("raj@testemail.com", "comments-mytheme-private", 1, 100, "reason why", "http://link-for-badge.com");
+
+or
+userinfuser.award_badge_points("raj@testemail.com", "referrals-mytheme-private", 1, 10);
+
+}}}
+The first integer is the number of points you are awarding. The second is the number required to actually unlock the badge. Users are not notified when they get badge points, but the are notified if they unlock the badge.
+
+=Languages=
 This document describes the UserInfuser API. Current language support is:
   * Python 
   * Java 
@@ -11,7 +78,9 @@ Coming Soon:
   * Ruby
   * .NET
 
-= Python =
+Examples for each language are coming soon. 
+
+== Python ==
 {{{
 class UserInfuser()
   def __init__(self, account, api_key)
@@ -38,7 +107,7 @@ class UserInfuser()
 
   def only_sync_calls(self)
 }}}
-= PHP =
+== PHP ==
 {{{
 Class UserInfuser($account, $api_key)
 
@@ -64,7 +133,7 @@ public function enable_local_testing()
 
 public function only_sync_calls()
 }}}
-= Java =
+== Java ==
 Coming Soon.
 = REST or HOWTO for Other Languages =
 As of now we recommend using one of the implemented languages as a reference on how to do this. More documentation is coming soon.
