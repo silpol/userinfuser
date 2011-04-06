@@ -1,0 +1,23 @@
+#summary Available Widgets in UserInfuser
+#labels Widgets,HTML,Javascript,JQuery
+
+= Introduction =
+
+This document talks about the different widgets available in UserInfuser. The widgets are highly customizable, enabling you make them blend in with the look and feel of your website.
+
+= Widgets =
+  * Leaderboard
+  * Points
+  * Rank
+  * Trophy Case
+  * Notifier
+
+==Leaderboard==
+
+==Points==
+
+==Rank==
+
+==Trophy Case==
+
+==Notifier==
