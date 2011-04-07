@@ -134,6 +134,24 @@ public function enable_local_testing()
 public function only_sync_calls()
 }}}
 == Java ==
-Coming Soon.
+{{{
+// Constructor
+public UserInfuser(final String accountId, final String apiKey)
+
+// Class functions
+public String getUserInfo(final String userId)
+
+public boolean updateUser(final String userId)
+
+public boolean awardBadge(final String userId, final String badgeId)
+
+public boolean removeBadge(final String userId, final String badgeId)
+
+public boolean awardPoints(final String userId, final int pointsAwarded)
+
+public boolean awardBadgePoints(final String userId, final int pointsAwarded)
+
+public String getWidget(final String userId, final WidgetType widgetType, final int height, final int width)
+}}}
 = REST or HOWTO for Other Languages =
 As of now we recommend using one of the implemented languages as a reference on how to do this. More documentation is coming soon.
