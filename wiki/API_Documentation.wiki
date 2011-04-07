@@ -154,4 +154,47 @@ public boolean awardBadgePoints(final String userId, final int pointsAwarded)
 public String getWidget(final String userId, final WidgetType widgetType, final int height, final int width)
 }}}
 = REST or HOWTO for Other Languages =
-As of now we recommend using one of the implemented languages as a reference on how to do this. More documentation is coming soon.
+Let's take a look at some client side code and how request are made:
+{{{
+def update_user(self, user_id, user_name="", link_to_profile="", link_to_profile_img=""):
+    argsdict = {"apikey":self.api_key,
+               "userid":user_id,
+               "accountid":self.account,
+               "profile_name":user_name,
+               "profile_link": link_to_profile,
+               "profile_img":link_to_profile_img}
+    ret = None
+    try:
+      if self.sync_all:
+        ret = self.__url_post(self.update_user_path, argsdict)
+      else:
+        self.__url_async_post(self.update_user_path, argsdict)
+        return True
+      self.debug_log("Received: %s"%ret)
+    except:
+      self.debug_log("Connection Error")
+      if self.raise_exceptions:
+        raise ui_errors.ConnectionError()
+    return self.__parse_return(ret)
+}}}
+
+This is the python client code for making updates for users. The arguments are directly put into a post request in a straight forward manner. Asynchronous updates are required to make sure there is no additional latency. The implementation of __url_async_post spawns a threads and ignores the returned values. If the request was synchronous, the returned values is in json, and reports if the call was successful or not. Other calls for awarding points or badges use the same method for remote procedure calls.
+
+==Rendering Widgets==
+For getting the widgets here is the python client code:
+{{{
+def get_widget(self, user_id, widget_type, height=500, width=300):
+    if widget_type not in ui_constants.VALID_WIDGETS:
+      raise ui_errors.UnknownWidget()
+    userhash = hashlib.sha1(self.account + '---' + user_id).hexdigest()
+    self.__prefetch_widget(widget_type, user_id)
+    if widget_type != "notifier":
+      return "<iframe border='0' z-index:9999; frameborder='0' height='"+str(height)+"px' width='"+str(width)+"px' scrolling='no' src='" + self.widget_path + "?widget=" + widget_type + "&u=" + userhash + "&height=" +str(height) + "&width="+str(width)+"'>Sorry your browser does not support iframes!</iframe>"
+    else:
+      return "<div style='z-index:9999; overflow: hidden; position: fixed; bottom: 0px; right: 10px;'><iframe style='border:none;' allowtransparency='true' height='"+str(height)+"px' width='"+str(width)+"px' scrolling='no' src='" + self.widget_path + "?widget=" + widget_type + "&u=" + userhash + "&height=" +str(height) + "&width="+str(width)+"'>Sorry your browser does not support iframes!</iframe></div>"
+}}}
+
+Here we see the call returns a string which can be embedded into your website. If the widget is the notifier, it returns a special div wrapped around the iframe to set the zindex. There is a call to prefetch the widget which is a call to the service to make sure the widget is ready to serve in memcache when the user asks for the widget.
+ 
+=More=
+More documentation is coming soon.
