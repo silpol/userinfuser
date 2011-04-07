@@ -1,5 +1,5 @@
 #summary Available Widgets in UserInfuser
-#labels Widgets,HTML,Javascript,JQuery
+#labels Widgets,HTML,Javascript,JQuery,Featured
 
 = Introduction =
 
