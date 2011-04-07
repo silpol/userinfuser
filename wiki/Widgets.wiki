@@ -12,12 +12,22 @@ This document talks about the different widgets available in UserInfuser. The wi
   * Trophy Case
   * Notifier
 
+Things that you can customize with the control panel:
+  * Title
+  * Fonts
+  * Background Color
+  * Foreground Color
+  * Size
+
 ==Leaderboard==
-
+The leaderboard shows the top 10 users of you application.
+Screen shot:
+[http://i.imgur.com/2hbFy.png]
 ==Points==
-
+[http://i.imgur.com/hPxrP.png]
 ==Rank==
-
+[http://i.imgur.com/eL3TS.png]
 ==Trophy Case==
-
+Screen shot coming soon.
 ==Notifier==
+Screen shot coming soon.
