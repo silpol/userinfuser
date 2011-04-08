@@ -154,7 +154,7 @@ public boolean awardBadgePoints(final String userId, final int pointsAwarded)
 public String getWidget(final String userId, final WidgetType widgetType, final int height, final int width)
 }}}
 = REST or HOWTO for Other Languages =
-Let's take a look at some client side code and how request are made:
+Let's take a look at some client side code and how requests are made:
 {{{
 def update_user(self, user_id, user_name="", link_to_profile="", link_to_profile_img=""):
     argsdict = {"apikey":self.api_key,
