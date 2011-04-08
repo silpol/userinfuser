@@ -66,7 +66,7 @@ or
 userinfuser.award_badge_points("raj@testemail.com", "referrals-mytheme-private", 1, 10);
 
 }}}
-The first integer is the number of points you are awarding. The second is the number required to actually unlock the badge. Users are not notified when they get badge points, but the are notified if they unlock the badge.
+The first integer is the number of points you are awarding. The second is the number required to actually unlock the badge. Users are not notified when they get badge points, but they are notified if they unlock the badge.
 
 =Languages=
 This document describes the UserInfuser API. Current language support is:
