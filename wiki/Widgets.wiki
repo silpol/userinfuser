@@ -30,4 +30,5 @@ Screen shot:
 ==Trophy Case==
 Screen shot coming soon.
 ==Notifier==
-Screen shot coming soon.
+The notifier shows up in the bottom-right corner of the webpage. This is a screenshot with the Chrome browser:
+[http://i.imgur.com/Q09wM.png]
