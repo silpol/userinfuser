@@ -21,7 +21,9 @@ Things that you can customize with the control panel:
 
 ==Leaderboard==
 The leaderboard shows the top 10 users of you application. The user image shown for each person is the default one.
+
 Screen shot:
+
 [http://i.imgur.com/2hbFy.png]
 ==Points==
 [http://i.imgur.com/hPxrP.png]
