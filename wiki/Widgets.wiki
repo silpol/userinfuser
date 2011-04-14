@@ -25,12 +25,12 @@ The leaderboard shows the top 10 users of you application. The user image shown 
 Screen shot:
 
 [http://i.imgur.com/2hbFy.png]
+==Trophy Case==
+[http://i.imgur.com/hygl8.png]
+==Notifier==
+The notifier shows up in the bottom-right corner of the webpage. This is a screenshot with the Chrome browser:
+[http://i.imgur.com/Q09wM.png]
 ==Points==
 [http://i.imgur.com/hPxrP.png]
 ==Rank==
 [http://i.imgur.com/eL3TS.png]
-==Trophy Case==
-[http://i.imgur.com/Rjx5q.png]
-==Notifier==
-The notifier shows up in the bottom-right corner of the webpage. This is a screenshot with the Chrome browser:
-[http://i.imgur.com/Q09wM.png]
