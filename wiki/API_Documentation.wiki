@@ -107,6 +107,26 @@ class UserInfuser()
 
   def only_sync_calls(self)
 }}}
+===Examples===
+{{{ 
+ui = UserInfuser("test@userinfuser.com", "123-456-789")
+
+ui.award_badge(current_user_email, "theme-badgename-private")
+
+ui.award_points(current_user_email, 10)
+
+# Show widgets with 100x100 size
+points_widget = ui.get_widget(current_user_email, "points", 100, 100)
+self.response.out.write(points_widget)
+
+rank_widget = ui.get_widget(current_user_email, "rank", 100, 100)
+self.response.out.write(rank_widget)
+
+# Use default size of 500x300 for trophy case 
+trophy_case_widget =ui.get_widget(current_user_email, "trophy_case")
+self.response.out.write(trophy_case_widget)
+
+}}}
 == PHP ==
 {{{
 Class UserInfuser($account, $api_key)
@@ -132,6 +152,23 @@ public function enable_encryption()
 public function enable_local_testing()
 
 public function only_sync_calls()
+}}}
+===Examples===
+{{{
+$ui = UserInfuser("test@userinfuser.com", "123-456-789");
+$ui->award_badge($current_user_email, "theme-badgename-private");
+$ui->award_points($current_user_email, 10);
+
+//Show widgets with 100x100 size $points_widget = $ui->get_widget($current_user_email, "points", 100, 100);
+print($points_widget);
+
+$rank_widget = $ui->get_widget($current_user_email, "rank", 100, 100);
+print($rank_widget);
+
+// Use default size of 500x300 for trophy case
+$trophy_case_widget = $ui->get_widget($current_user_email, "trophy_case");
+print(trophy_case_widget);
+
 }}}
 == Java ==
 {{{
