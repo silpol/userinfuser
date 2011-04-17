@@ -24,7 +24,7 @@ The leaderboard shows the top 10 users of you application. The user image shown 
 
 Screen shot:
 
-[http://i.imgur.com/2hbFy.png]
+[http://i.imgur.com/nqJDO.png]
 ==Trophy Case==
 [http://i.imgur.com/hygl8.png]
 ==Notifier==
