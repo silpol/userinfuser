@@ -190,34 +190,28 @@ public boolean awardBadgePoints(final String userId, final int pointsAwarded)
 
 public String getWidget(final String userId, final WidgetType widgetType, final int height, final int width)
 }}}
-== Python ==
+== Ruby ==
+The Ruby UserInfuser gem exposes the following API:
+
 {{{
-class UserInfuser()
-  def __init__(self, account, api_key)
-  
-  def get_user_data(self, user_id)
-  
-  def update_user(self, user_id)
-  
-  def award_badge(self, user_id, badge_id)
-  
-  def remove_badge(self, user_id, badge_id)
-  
-  def award_points(self, user_id, points_awarded)
-  
-  def award_badge_points(self, user_id, badge_id, points_awarded, points_required) 
+class UserInfuser
+  def initialize(account, api_key, debug=false, local=false, encrypt=true, sync_all=false)
 
-  def get_widget(self, user_id, widget_type, height, width)
+  def get_user_data(id)
 
-  def enable_debug(self)
+  def update_user(id, name, link_to_profile, link_to_profile_image)
 
-  def enable_encryption(self)
+  def award_badge(user_id, badge_id, reason="", resource="")
 
-  def enable_local_testing(self) 
+  def remove_badge(user_id, badge_id)
 
-  def only_sync_calls(self)
+  def award_points(user_id, points_awarded, reason="")
+
+  def award_badge_points(user_id, badge_id, points_awarded, points_required, reason="", resource="")
+
+  def get_widget(user_id, widget_type, height=500, width=300)
 }}}
-===Ruby===
+===Examples===
 {{{ 
 require 'rubygems'
 require 'userinfuser'
