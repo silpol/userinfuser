@@ -3,7 +3,7 @@
 
 = Introduction =
 
-This wiki page describes how to run your own gamification platform using UserInfuser on Google App Engine and AppScale. If you don't want to go through the hassle of propping it up visit http://cloudcaptive.com to use this platform as a paid service. 
+This wiki page describes how to run your own gamification platform using !UserInfuser on Google App Engine and !AppScale. If you don't want to go through the hassle of propping it up visit http://cloudcaptive.com to use this platform as a paid service. 
 
 [http://code.google.com/appengine/images/appengine_lowres.png]
 = Steps For Google App Engine =
@@ -18,9 +18,9 @@ This wiki page describes how to run your own gamification platform using UserInf
 
 
 [http://posterous.com/getfile/files.posterous.com/wslinks/IJ1mr2yGdPRyPFvBBN81pdfn97XgGcK6OBtUmvnXkIhKWBBxw0I3R7RDEFAl/image001.png] 
-= Steps for AppScale =
+= Steps for !AppScale =
 This option is for those who want to host it on their own hardware (Xen, KVM, physical hardware, Eucalyptus) or on a public cloud like Amazon's EC2.
-  * Setup and run AppScale: http://code.google.com/p/appscale
+  * Setup and run !AppScale: http://code.google.com/p/appscale
   * Deploy the application
      * appscale-upload-app --file userinfuser
-  * Change the client side api url to where AppScale is hosting it
+  * Change the client side api url to where !AppScale is hosting it
