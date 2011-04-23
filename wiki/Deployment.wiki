@@ -1,0 +1,26 @@
+#summary Deploy Your Own Gamification Platform
+#labels Phase-Deploy,GoogleAppEngine,AppScale
+
+= Introduction =
+
+This wiki page describes how to run your own gamification platform using UserInfuser on Google App Engine and AppScale. If you don't want to go through the hassle of propping it up visit cloudcaptive.com to use this platform as a paid service. 
+
+[http://code.google.com/appengine/images/appengine_lowres.png]
+= Steps For Google App Engine =
+
+  * Go to appspot.com
+  * Sign up and select a unique application identifier
+  * Download the SDK
+  * Change the name of the application name in the code in userinfuser/serverside/constants.py and userinfuser/app.yaml
+  * Upload your application to google's infrastructure
+     * python appcfg.py update userinfuser
+  * Change the client side api name to your app identifier
+
+
+[http://posterous.com/getfile/files.posterous.com/wslinks/IJ1mr2yGdPRyPFvBBN81pdfn97XgGcK6OBtUmvnXkIhKWBBxw0I3R7RDEFAl/image001.png] 
+= Steps for AppScale =
+This option is for those who want to host it on their own hardware (Xen, KVM, physical hardware, Eucalyptus) or on a public cloud like Amazon's EC2.
+  * Setup and run AppScale: http://code.google.com/p/appscale
+  * Deploy the application
+     * appscale-upload-app --file userinfuser
+  * Change the client side api name to where AppScale is hosting it
