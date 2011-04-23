@@ -20,7 +20,7 @@ Things that you can customize with the control panel:
   * Size
 
 ==Leaderboard==
-The leaderboard shows the top 10 users of you application. The anonymous user image is the default one.
+The leaderboard shows the top 10 users of your application. The anonymous user image is the default.
 
 Screen shot:
 
