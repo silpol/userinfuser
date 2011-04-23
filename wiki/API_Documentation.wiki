@@ -1,5 +1,5 @@
 #summary Client side documentation
-#labels PHP,REST,Python,Java,Featured
+#labels PHP,REST,Python,Java,Featured,Ruby
 = Introduction =
 The client side library plugs into your server side application. The following API allows for you to register users, award points, award badges, and get widgets to render on your website.
 
@@ -73,9 +73,9 @@ This document describes the UserInfuser API. Current language support is:
   * Python 
   * Java 
   * PHP
+  * Ruby
 
 Coming Soon:
-  * Ruby
   * .NET
 
 Examples for each language are coming soon. 
@@ -189,6 +189,56 @@ public boolean awardPoints(final String userId, final int pointsAwarded)
 public boolean awardBadgePoints(final String userId, final int pointsAwarded)
 
 public String getWidget(final String userId, final WidgetType widgetType, final int height, final int width)
+}}}
+== Python ==
+{{{
+class UserInfuser()
+  def __init__(self, account, api_key)
+  
+  def get_user_data(self, user_id)
+  
+  def update_user(self, user_id)
+  
+  def award_badge(self, user_id, badge_id)
+  
+  def remove_badge(self, user_id, badge_id)
+  
+  def award_points(self, user_id, points_awarded)
+  
+  def award_badge_points(self, user_id, badge_id, points_awarded, points_required) 
+
+  def get_widget(self, user_id, widget_type, height, width)
+
+  def enable_debug(self)
+
+  def enable_encryption(self)
+
+  def enable_local_testing(self) 
+
+  def only_sync_calls(self)
+}}}
+===Ruby===
+{{{ 
+require 'rubygems'
+require 'userinfuser'
+
+ui = UserInfuser.new("test@userinfuser.com", "123-456-789")
+
+ui.award_badge(current_user_email, "theme-badgename-private")
+
+ui.award_points(current_user_email, 10)
+
+# Show widgets with 100x100 size
+points_widget = ui.get_widget(current_user_email, "points", 100, 100)
+puts points_widget
+
+rank_widget = ui.get_widget(current_user_email, "rank", 100, 100)
+puts rank_widget
+
+# Use default size of 500x300 for trophy case 
+trophy_case_widget = ui.get_widget(current_user_email, "trophy_case")
+puts trophy_case_widget
+
 }}}
 = REST or HOWTO for Other Languages =
 Let's take a look at some client side code and how requests are made:
