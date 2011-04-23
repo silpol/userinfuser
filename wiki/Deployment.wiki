@@ -23,4 +23,4 @@ This option is for those who want to host it on their own hardware (Xen, KVM, ph
   * Setup and run AppScale: http://code.google.com/p/appscale
   * Deploy the application
      * appscale-upload-app --file userinfuser
-  * Change the client side api name to where AppScale is hosting it
+  * Change the client side api url to where AppScale is hosting it
