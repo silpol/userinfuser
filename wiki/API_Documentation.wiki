@@ -66,7 +66,7 @@ or
 userinfuser.award_badge_points("raj@testemail.com", "mytheme-referrals-private", 1, 10);
 
 }}}
-The first integer is the number of points you are awarding. The second is the number required to actually unlock the badge. Users are not notified when they get badge points, but they are notified if they unlock the badge.
+The first integer is the number of points you are awarding. The second is the number required to actually unlock the badge. Users are not notified when they get badge points, but they are notified if they unlock the badge. For the example above, for the user to unlock the comments badge, the API call must be made 100 times (the user made 100 comments).
 
 =Languages=
 This document describes the UserInfuser API. Current language support is:
