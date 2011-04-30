@@ -10,6 +10,7 @@ This wiki page describes how to run your own gamification platform using !UserIn
 
   * Go to appspot.com
   * Sign up and select a unique application identifier
+  * Enable billing (blobstore requires it)
   * Download the SDK
   * Change the name of the application name in the code in userinfuser/serverside/constants.py and userinfuser/app.yaml
   * Upload your application to google's infrastructure
