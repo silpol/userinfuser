@@ -34,11 +34,11 @@ The reason why you awarded the points is optional, but if you have enabled notif
 ==Awarding Badges==
 To award a badge:
 {{{
-userinfuser.award_badge("raj@testemail.com", "badgename-badgetheme-private");
+userinfuser.award_badge("raj@testemail.com", "badgetheme-badgename-private");
 
 or
 
-userinfuser.award_badge("raj@testemail.com", "badgename-badgetheme-private", "reason why", "http://link_if_they_click_the_badge.com");
+userinfuser.award_badge("raj@testemail.com", "badgetheme-badgename-private", "reason why", "http://link_if_they_click_the_badge.com");
 }}}
 
 ==Widgets==
@@ -60,10 +60,10 @@ The last two arguments are the height and width. They will always override the d
 There are badges you can award only after a user has done a certain number of actions. Once the required number of badge points are attained, the badge is unlocked, and the user is notified.
 To award badge points:
 {{{
-userinfuser.award_badge_points("raj@testemail.com", "comments-mytheme-private", 1, 100, "reason why", "http://link-for-badge.com");
+userinfuser.award_badge_points("raj@testemail.com", "mytheme-comments-private", 1, 100, "reason why", "http://link-for-badge.com");
 
 or
-userinfuser.award_badge_points("raj@testemail.com", "referrals-mytheme-private", 1, 10);
+userinfuser.award_badge_points("raj@testemail.com", "mytheme-referrals-private", 1, 10);
 
 }}}
 The first integer is the number of points you are awarding. The second is the number required to actually unlock the badge. Users are not notified when they get badge points, but they are notified if they unlock the badge.
