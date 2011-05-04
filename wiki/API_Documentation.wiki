@@ -78,7 +78,10 @@ This document describes the UserInfuser API. Current language support is:
 Coming Soon:
   * .NET
 
-Examples for each language are coming soon. 
+Ruby can be installed with the following command:
+{{{gem install userinfuser}}}
+
+The java and python client tools both work for Google App Engine applications.
 
 == Python ==
 {{{
