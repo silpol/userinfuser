@@ -64,6 +64,7 @@ To award badge points:
 userinfuser.award_badge_points("raj@testemail.com", "mytheme-comments-private", 1, 100, "reason why", "http://link-for-badge.com");
 
 or
+
 userinfuser.award_badge_points("raj@testemail.com", "mytheme-referrals-private", 1, 10);
 
 }}}
