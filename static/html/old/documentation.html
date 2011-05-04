@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>GameInfuzer - Documentation</title>
+<link href="/css/style2.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20494925-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<body>
+
+	<!-- TOP BANNER STUFF -->
+	<div id="topBarGeneric"><div id="topWrapGeneric">
+		<div id="topLeftGeneric">
+			<img src="/images/main_logo.gif"/>
+		</div>
+		<div id="topRightGeneric">
+			<div id="nav">
+				<a class="nav" href="index.html">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a class="nav" href="products.html">Products</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a class="nav" href="about.html">About</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a class="nav" href="support.html">Support</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a class="nav" href="documentation.html">Documentation</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a class="nav" href="signup.html">Sign Up</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a class="nav" href="http://gameinfuzer.posterous.com">Blog</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a class="nav" href="../adminconsole">Login</a>
+			</div>
+		</div>
+	</div></div>
+	<!-- /top banner stuff -->
+	
+	<div id="wrapper">
+		<br/>
+		<center>
+			<b>Documentation</b>
+			<br/>
+		</center>
+	</div>
+  <h1>API</h1>
+  The API can be accessed once you have signed up and retrieved an API key. <a href="signup.html"> CLICK HERE SIGN UP AND GET A KEY</a>.
+  The API key and your account email are used to create the constructor. 
+  API calls are then made to award your users. The functions include:
+<div><!--
+
+Code highlighting produced by Actipro CodeHighlighter (freeware)
+http://www.CodeHighlighter.com/
+
+--><span style="color: #000000;">UserInfuser(account</span><span style="color: #000000;">,</span><span style="color: #000000;"> api_key)<br>
+get_user_data(user_id)<br>
+
+update_user(user_id)<br>
+
+award_badge(user_id, badge_id</span><span style="color: #000000;"></span><span style="color: #000000;">)<br>
+remove_badge(user_id, badge_id</span><span style="color: #000000;"></span><span style="color: #000000;">)<br>
+award_points(user_id</span><span style="color: #000000;">,</span><span style="color: #000000;"> points_awarded)<br>
+award_badge_points(user_id, badge_id</span><span style="color: #000000;">,</span><span style="color: #000000;"> points_awarded</span><span style="color: #000000;">,</span><span style="color: #000000;"> points_required)<br>
+get_widget(user_id</span><span style="color: #000000;">,</span><span style="color: #000000;"> widget_type</span><span style="color: #000000;">,</span><span style="color: #000000;"> height</span><span style="color: #000000;">,</span><span style="color: #000000;"> width)<br>
+</span></div>
+  <!-- TODO add info on how to award badge points
+  UserInfuser(email, api_key)
+  get_user_data(user_id)
+  update_user(user_id)
+  award_badge(badge_id, user_id)
+  remove_badge(badge_id, user_id)
+  award_points(user_id, points_awarded)
+  award_badge_points(badge_id,user_id, points_awarded, points_required)   
+  get_widget(user_id, widget_type, height, width)
+  -->
+  <h1>Supported Languages</h1>
+  <h2>Python</h2>	
+   <div><!--
+class UserInfuser()
+   def __init__(self,account, api_key)
+def get_user_data(user_id)
+def update_user(user_id)
+def award_badge(badge_id, user_id)
+def remove_badge(badge_id, user_id)
+def award_points(user_id, points_awarded)
+def award_badge_points(badge_id, user_id, points_awarded, points_required) 
+def get_widget(user_id, widget_type, height, width)
+def enable_debug()
+def enable_encryption()
+def enable_local_testing() 
+def only_sync_calls()
+
+Code highlighting produced by Actipro CodeHighlighter (freeware)
+http://www.CodeHighlighter.com/
+
+--><span style="color: #0000FF;">class</span><span style="color: #000000;"> UserInfuser()<br>
+   </span><span style="color: #0000FF;">&nbsp;&nbsp; def</span><span style="color: #000000;"> </span><span style="color: #800080;">__init__</span><span style="color: #000000;">(self, account, api_key)<br>
+
+</span><span style="color: #0000FF;">&nbsp;&nbsp; def</span><span style="color: #000000;"> get_user_data(self, user_id)<br>
+
+</span><span style="color: #0000FF;">&nbsp;&nbsp; def</span><span style="color: #000000;"> update_user(self, user_id)<br>
+
+</span><span style="color: #0000FF;">&nbsp;&nbsp; def</span><span style="color: #000000;"> award_badge(self, user_id, badge_id)<br>
+
+</span><span style="color: #0000FF;">&nbsp;&nbsp; def</span><span style="color: #000000;"> remove_badge(self, user_id, badge_id)<br>
+
+</span><span style="color: #0000FF;">&nbsp;&nbsp; def</span><span style="color: #000000;"> award_points(self, user_id, points_awarded)<br>
+
+</span><span style="color: #0000FF;">&nbsp;&nbsp; def</span><span style="color: #000000;"> award_badge_points(self, user_id, badge_id, points_awarded, points_required) <br>
+
+</span><span style="color: #0000FF;">&nbsp;&nbsp; def</span><span style="color: #000000;"> get_widget(self, user_id, widget_type, height, width)<br>
+
+</span><span style="color: #0000FF;">&nbsp;&nbsp; def</span><span style="color: #000000;"> enable_debug(self)<br>
+
+</span><span style="color: #0000FF;">&nbsp;&nbsp; def</span><span style="color: #000000;"> enable_encryption(self)<br>
+
+</span><span style="color: #0000FF;">&nbsp;&nbsp; def</span><span style="color: #000000;"> enable_local_testing(self) <br>
+
+</span><span style="color: #0000FF;">&nbsp;&nbsp; def</span><span style="color: #000000;"> only_sync_calls(self)<br>
+
+
+</span></div>
+  <h3>Examples</h3>
+<!--
+   ui = UserInfuser("raj@cloudcaptive.com", "123-456-789")<br>
+   ui.award_badge(current_user.email, "theme-badgename-private")<br>
+
+   ui.award_points(current_user.email, 10)<br>
+
+   # Show widgets with 100x100 size<br>
+
+   points_widget = ui.get_widget(user_id, "points", 100, 100)<br>
+
+   self.response.out.write(points_widget)<br>
+
+   rank_widget = ui.get_widget(user_id, "rank", 100, 100)<br>
+
+   self.response.out.write(rank_widget)<br>
+
+   # Use default size of 500x300 for trophy case <br>
+
+   trophy_case_widget =ui.get_widget(user_id, "trophy_case")<br>
+
+   self.response.out.write(trophy_case_widget) <br>
+-->
+<div><!--
+
+Code highlighting produced by Actipro CodeHighlighter (freeware)
+http://www.CodeHighlighter.com/
+
+--><span style="color: #008080;"> </span> <span style="color: #000000;">ui </span><span style="color: #000000;">=</span><span style="color: #000000;"> UserInfuser(</span><span style="color: #800000;">&quot;</span><span style="color: #800000;">raj@cloudcaptive.com</span><span style="color: #800000;">&quot;</span><span style="color: #000000;">, </span><span style="color: #800000;">&quot;</span><span style="color: #800000;">123-456-789</span><span style="color: #800000;">&quot;</span><span style="color: #000000;">)<br>
+</span><span style="color: #008080;"> </span> <span style="color: #000000;">ui.award_badge(current_user_email, </span><span style="color: #800000;">&quot;</span><span style="color: #800000;">theme-badgename-private</span><span style="color: #800000;">&quot;</span><span style="color: #000000;">)<br>
+</span><span style="color: #008080;"> </span> <span style="color: #000000;">ui.award_points(current_user_email, </span><span style="color: #000000;">10</span><span style="color: #000000;">)<br>
+</span><span style="color: #008080;"> </span> <span style="color: #000000;"></span><span style="color: #008000;">#</span><span style="color: #008000;"> Show widgets with 100x100 size</span><span style="color: #008000;"></span><br>
+<span style="color: #008080;"> </span> <span style="color: #008000;"></span><span style="color: #000000;">points_widget </span><span style="color: #000000;">=</span><span style="color: #000000;"> ui.get_widget(current_user_email, </span><span style="color: #800000;">&quot;</span><span style="color: #800000;">points</span><span style="color: #800000;">&quot;</span><span style="color: #000000;">, </span><span style="color: #000000;">100</span><span style="color: #000000;">, </span><span style="color: #000000;">100</span><span style="color: #000000;">)<br>
+</span><span style="color: #008080;"> </span> <span style="color: #000000;">self.response.out.write(points_widget)<br>
+</span><span style="color: #008080;"> </span> <span style="color: #000000;">rank_widget </span><span style="color: #000000;">=</span><span style="color: #000000;"> ui.get_widget(current_user_email, </span><span style="color: #800000;">&quot;</span><span style="color: #800000;">rank</span><span style="color: #800000;">&quot;</span><span style="color: #000000;">, </span><span style="color: #000000;">100</span><span style="color: #000000;">, </span><span style="color: #000000;">100</span><span style="color: #000000;">)<br>
+</span><span style="color: #008080;"> </span> <span style="color: #000000;">self.response.out.write(rank_widget)<br>
+</span><span style="color: #008080;"> </span> <span style="color: #000000;"></span><span style="color: #008000;">#</span><span style="color: #008000;"> Use default size of 500x300 for trophy case</span><span style="color: #008000;">
+</span><br><span style="color: #008080;"></span> <span style="color: #008000;"></span><span style="color: #000000;">trophy_case_widget </span><span style="color: #000000;">=</span><span style="color: #000000;">ui.get_widget(current_user_email, </span><span style="color: #800000;">&quot;</span><span style="color: #800000;">trophy_case</span><span style="color: #800000;">&quot;</span><span style="color: #000000;">)<br>
+</span><span style="color: #008080;"></span> <span style="color: #000000;">self.response.out.write(trophy_case_widget)<br> </span></div>
+	<h2>PHP</h2>
+  <!--
+public function __construct($account, $api_key)
+public function enable_debug()
+public function enable_encryption()
+public function enable_local_testing() 
+public function only_sync_calls(){
+public function get_user_data($user_id)
+public function update_user($user_id, $user_name="", $link_to_profile="", $link_to_profile_img="")
+public function award_badge($badge_id, $user_id, $reason="", $resource="")
+public function remove_badge($badge_id, $user_id)
+public function award_points($user_id, $points_awarded, $reason="")
+public function award_badge_points($badge_id, 
+public function get_widget($user_id, $widget_type, $height=300, $width=500)
+
+  -->
+<div><!--
+
+Code highlighting produced by Actipro CodeHighlighter (freeware)
+http://www.CodeHighlighter.com/
+
+-->
+<span style="color: #0000FF;">Class</span><span style="color: #000000;"> </span><span style="color: #000000;"> UserInfuser(</span><span style="color: #800080;">$account</span><span style="color: #000000;">,</span><span style="color: #000000;"> </span><span style="color: #800080;">$api_key</span><span style="color: #000000;">)<br>
+</span><span style="color: #0000FF;">public</span><span style="color: #000000;"> </span><span style="color: #0000FF;">function</span><span style="color: #000000;"> get_user_data(</span><span style="color: #800080;">$user_id</span><span style="color: #000000;">)<br>
+
+</span><span style="color: #0000FF;">public</span><span style="color: #000000;"> </span><span style="color: #0000FF;">function</span><span style="color: #000000;"> update_user(</span><span style="color: #800080;">$user_id</span><span style="color: #000000;">)<br>
+
+</span><span style="color: #0000FF;">public</span><span style="color: #000000;"> </span><span style="color: #0000FF;">function</span><span style="color: #000000;"> award_badge(</span><span style="color: #800080;">$badge_id</span><span style="color: #000000;">, </span><span style="color: #000000;"> </span><span style="color: #800080;">$user_id</span><span style="color: #000000;">)<br>
+
+</span><span style="color: #0000FF;">public</span><span style="color: #000000;"> </span><span style="color: #0000FF;">function</span><span style="color: #000000;"> remove_badge(</span><span style="color: #800080;">$badge_id</span><span style="color: #000000;">,</span><span style="color: #000000;"> </span><span style="color: #800080;">$user_id</span><span style="color: #000000;">)<br>
+</span><span style="color: #0000FF;">public</span><span style="color: #000000;"> </span><span style="color: #0000FF;">function</span><span style="color: #000000;"> award_points(</span><span style="color: #800080;">$user_id</span><span style="color: #000000;">,</span><span style="color: #000000;"> </span><span style="color: #800080;">$points_awarded</span><span style="color: #000000;">)<br>
+</span><span style="color: #0000FF;">public</span><span style="color: #000000;"> </span><span style="color: #0000FF;">function</span><span style="color: #000000;"> award_badge_points(</span><span style="color: #800080;">$badge_id</span><span style="color: #000000;">,</span><span style="color: #000000;"> 
+                                   </span><span style="color: #800080;">$user_id</span><span style="color: #000000;">,</span><span style="color: #000000;">
+                                   </span><span style="color: #800080;">$points_awarded</span><span style="color: #000000;">,</span><span style="color: #000000;">
+                                   </span><span style="color: #800080;">$points_required</span><span style="color: #000000;">)<br>
+</span><span style="color: #0000FF;">public</span><span style="color: #000000;"> </span><span style="color: #0000FF;">function</span><span style="color: #000000;"> get_widget(</span><span style="color: #800080;">$user_id</span><span style="color: #000000;">,</span><span style="color: #000000;"> </span><span style="color: #800080;">$widget_type</span><span style="color: #000000;">)<br>
+</span><span style="color: #0000FF;">public</span><span style="color: #000000;"> </span><span style="color: #0000FF;">function</span><span style="color: #000000;"> enable_debug()<br>
+</span><span style="color: #0000FF;">public</span><span style="color: #000000;"> </span><span style="color: #0000FF;">function</span><span style="color: #000000;"> enable_encryption()<br>
+</span><span style="color: #0000FF;">public</span><span style="color: #000000;"> </span><span style="color: #0000FF;">function</span><span style="color: #000000;"> enable_local_testing()<br>
+</span><span style="color: #0000FF;">public</span><span style="color: #000000;"> </span><span style="color: #0000FF;">function</span><span style="color: #000000;"> only_sync_calls()</span></div>
+  <h3>Examples</h3>
+   <!--
+   $ui = UserInfuser("raj@cloudcaptive.com", "123-456-789");<br>
+   $ui->award_badge($current_user_email, "theme-badgename-private");<br>
+
+   $ui->award_points($current_user_email, 10);<br>
+
+   //Show widgets with 100x100 size<br>
+
+   $points_widget = $ui->get_widget($current_user_email, "points", 100, 100);<br>
+
+   print($points_widget);<br>
+
+   $rank_widget = $ui->get_widget($current_user_email, "rank", 100, 100);<br>
+
+   print($rank_widget);<br>
+
+   # Use default size of 500x300 for trophy case <br>
+
+   $trophy_case_widget = $ui->get_widget($current_user_email, "trophy_case");<br>
+
+   print($trophy_case_widget); <br>
+   -->
+   <div><!--
+
+Code highlighting produced by Actipro CodeHighlighter (freeware)
+http://www.CodeHighlighter.com/
+
+--><span style="color: #800080;">$ui</span><span style="color: #000000;"> </span><span style="color: #000000;">=</span><span style="color: #000000;"> UserInfuser(</span><span style="color: #000000;">&quot;</span><span style="color: #000000;">raj@cloudcaptive.com</span><span style="color: #000000;">&quot;</span><span style="color: #000000;">,</span><span style="color: #000000;"> </span><span style="color: #000000;">&quot;</span><span style="color: #000000;">123-456-789</span><span style="color: #000000;">&quot;</span><span style="color: #000000;">);<br>
+</span><span style="color: #800080;">$ui</span><span style="color: #000000;">-&gt;</span><span style="color: #000000;">award_badge(</span><span style="color: #800080;">$current_user_email</span><span style="color: #000000;">,</span><span style="color: #000000;"> </span><span style="color: #000000;">&quot;</span><span style="color: #000000;">theme-badgename-private</span><span style="color: #000000;">&quot;</span><span style="color: #000000;">);<br>
+</span><span style="color: #800080;">$ui</span><span style="color: #000000;">-&gt;</span><span style="color: #000000;">award_points(</span><span style="color: #800080;">$current_user_email</span><span style="color: #000000;">,</span><span style="color: #000000;"> </span><span style="color: #000000;">10</span><span style="color: #000000;">);<br>
+</span><span style="color: #008000;">//</span><span style="color: #008000;">Show widgets with 100x100 size</span><span style="color: #008000;">
+</span><span style="color: #800080;">$points_widget</span><span style="color: #000000;"> </span><span style="color: #000000;">=</span><span style="color: #000000;"> </span><span style="color: #800080;">$ui</span><span style="color: #000000;">-&gt;</span><span style="color: #000000;">get_widget(</span><span style="color: #800080;">$current_user_email</span><span style="color: #000000;">,</span><span style="color: #000000;"> </span><span style="color: #000000;">&quot;</span><span style="color: #000000;">points</span><span style="color: #000000;">&quot;</span><span style="color: #000000;">,</span><span style="color: #000000;"> </span><span style="color: #000000;">100</span><span style="color: #000000;">,</span><span style="color: #000000;"> </span><span style="color: #000000;">100</span><span style="color: #000000;">);<br>
+</span><span style="color: #0000FF;">print</span><span style="color: #000000;">(</span><span style="color: #800080;">$points_widget</span><span style="color: #000000;">);<br>
+</span><span style="color: #800080;">$rank_widget</span><span style="color: #000000;"> </span><span style="color: #000000;">=</span><span style="color: #000000;"> </span><span style="color: #800080;">$ui</span><span style="color: #000000;">-&gt;</span><span style="color: #000000;">get_widget(</span><span style="color: #800080;">$current_user_email</span><span style="color: #000000;">,</span><span style="color: #000000;"> </span><span style="color: #000000;">&quot;</span><span style="color: #000000;">rank</span><span style="color: #000000;">&quot;</span><span style="color: #000000;">,</span><span style="color: #000000;"> </span><span style="color: #000000;">100</span><span style="color: #000000;">,</span><span style="color: #000000;"> </span><span style="color: #000000;">100</span><span style="color: #000000;">);<br>
+</span><span style="color: #0000FF;">print</span><span style="color: #000000;">(</span><span style="color: #800080;">$rank_widget</span><span style="color: #000000;">);<br>
+</span><span style="color: #008000;">//</span><span style="color: #008000;"> Use default size of 500x300 for trophy case</span><br><span style="color: #008000;">
+</span><span style="color: #800080;">$trophy_case_widget</span><span style="color: #000000;"> </span><span style="color: #000000;">=</span><span style="color: #000000;"> </span><span style="color: #800080;">$ui</span><span style="color: #000000;">-&gt;</span><span style="color: #000000;">get_widget(</span><span style="color: #800080;">$current_user_email</span><span style="color: #000000;">,</span><span style="color: #000000;"> </span><span style="color: #000000;">&quot;</span><span style="color: #000000;">trophy_case</span><span style="color: #000000;">&quot;</span><span style="color: #000000;">);<br>
+</span><span style="color: #0000FF;">print</span><span style="color: #000000;">(trophy_case_widget); </span></div>
+  <h2>Java</h2>
+  Coming soon!
+  <h2>Ruby</h2>
+  Coming soon!
+  <h2>.NET</h2>
+  Coming soon!	
+  <h2>Other Languages</h2>
+  Send a request at support@cloudcaptive.com
+</body>
+</html>
