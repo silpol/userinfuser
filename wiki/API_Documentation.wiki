@@ -20,6 +20,7 @@ Whenever a user logs in or signs up on your site you should call the update_user
 userinfuser.update_user("raj@testmail.com");
 
 or 
+
 //this way will show an image and their name on the leaderboard
 userinfuser.update_user("raj@testmail.com", "Raj", "http://nlake44.posterous.com", "http://someurl.com/images/raj.jpg"):
 }}}
