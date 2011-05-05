@@ -13,8 +13,10 @@ This wiki page describes step-by-step on how to put UserInfuser into your websit
   * Check and verify your email address after signing up
   * Log in 
 [http://i.imgur.com/7xaEK.png]
-  * For help click the "?" box in the upper right corner 
 
+= Dashboard Help =
+  * For help click the "?" box in the upper right corner 
+[http://i.imgur.com/vNXLZ.png]
 = Setup Badges =
   * Upload a set of badges and give each
     * a short name
