@@ -6,8 +6,8 @@ This wiki page describes step-by-step on how to put UserInfuser into your websit
 
 = Create an Account =
   * Sign up for an account
-    * [http://cloudcaptive-userinfuser.appspot.com here] or
-    * your-own-deployment.appspot.com
+    * [http://cloudcaptive-userinfuser.appspot.com Official Site] or
+    * http://your-own-deployment.appspot.com
 
 [http://i.imgur.com/7xaEK.png]
   * Check and verify your email address after signing up
