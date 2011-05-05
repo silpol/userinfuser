@@ -38,6 +38,10 @@ This wiki page describes step-by-step on how to put UserInfuser into your websit
   * Hit the "View Widget" to preview it
 [http://i.imgur.com/MhTPD.png]
 
+= Analytics =
+  * Analytics are in the "Analytics" tab
+[http://i.imgur.com/1UkD0.png]
+
 = Other Stuff =
 See the API Docs wiki for more information. Once your badges have been created, and you have stylized your widgets, the rest is server side development. 
 
