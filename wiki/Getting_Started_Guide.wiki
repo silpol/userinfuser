@@ -29,7 +29,7 @@ This wiki page describes step-by-step on how to put UserInfuser into your websit
 = Download API Client Tools =
   * Download the client side tools in the download page
   * Make note of your API key which is found in the dashboard when you first login
-[http://i.imgur.com/ohQX8.png]
+[http://i.imgur.com/yeU0J.png]
   * Do not share your API key with others
 
 =Styled Widgets=
