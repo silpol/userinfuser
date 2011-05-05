@@ -24,7 +24,7 @@ This wiki page describes step-by-step on how to put UserInfuser into your websit
     * a short description
       * This will be the default text that shows up next to an awarded badge
 [http://i.imgur.com/d37P2.png]
-  * See your uploaded badges and their badge id's
+  * See your uploaded badges and their badge ids
 [http://i.imgur.com/DSw0W.png]
 = Download API Client Tools =
   * Download the client side tools in the download page
