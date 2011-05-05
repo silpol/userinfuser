@@ -9,10 +9,10 @@ This wiki page describes step-by-step on how to put UserInfuser into your websit
     * [http://cloudcaptive-userinfuser.appspot.com Official Site] or
     * http://your-own-deployment.appspot.com
 
-[http://i.imgur.com/7xaEK.png]
+[http://i.imgur.com/iyUY3.png]
   * Check and verify your email address after signing up
   * Log in 
-[http://i.imgur.com/iyUY3.png]
+[http://i.imgur.com/7xaEK.png]
   * For help click the "?" box in the upper right corner 
 
 = Setup Badges =
