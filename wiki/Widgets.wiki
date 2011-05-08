@@ -29,7 +29,7 @@ Screen shot:
 ==Trophy Case==
 [http://i.imgur.com/hygl8.png]
 ==Milestones==
-[http://i.imgur.com/vNo8J.png]
+[http://i.imgur.com/CNriO.png]
 ==Notifier==
 The notifier shows up in the bottom-right corner of the webpage. This is a screenshot with the Chrome browser:
 [http://i.imgur.com/Q09wM.png]
