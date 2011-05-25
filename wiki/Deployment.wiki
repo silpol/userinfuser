@@ -5,6 +5,8 @@
 
 This wiki page describes how to run your own gamification platform using !UserInfuser on Google App Engine and !AppScale. If you don't want to go through the hassle of propping it up visit http://cloudcaptive.com to use this platform as a paid service. 
 
+= Download The Application =
+
 Download the application from [http://userinfuser.googlecode.com/files/userinfuser-0.9.0.tar.gz here]. Do not use the SVN repository.
 
 [http://code.google.com/appengine/images/appengine_lowres.png]
