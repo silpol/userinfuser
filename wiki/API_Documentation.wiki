@@ -160,7 +160,7 @@ public function only_sync_calls()
 }}}
 ===Examples===
 {{{
-$ui = UserInfuser("test@userinfuser.com", "123-456-789");
+$ui = new UserInfuser("test@userinfuser.com", "123-456-789");
 $ui->award_badge($current_user_email, "theme-badgename-private");
 $ui->award_points($current_user_email, 10);
 
@@ -172,7 +172,7 @@ print($rank_widget);
 
 // Use default size of 500x300 for trophy case
 $trophy_case_widget = $ui->get_widget($current_user_email, "trophy_case");
-print(trophy_case_widget);
+print($trophy_case_widget);
 
 }}}
 == Java ==
