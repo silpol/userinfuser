@@ -5,7 +5,11 @@
 "CloudCaptive.com UserInfuser">
 </head>
 <body>
-<div style="background-color:{{backgroundColor}}; visibility: visible; border:{{borderThickness}}px {{borderStyle}} {{borderColor}}; height:{{height}}px; width:{{width}}px; overflow:auto; ">
+<div style="background-color:{{backgroundColor}}; visibility: visible; 
+{% if hasRoundedCorners %}
+border-radius: 10px 10px 10px 10px;
+{% endif %}
+border:{{borderThickness}}px {{borderStyle}} {{borderColor}}; height:{{height}}px; width:{{width}}px; overflow:auto; ">
   {% if displayTitle %}
     <div style="background-color:{{titleBackgroundColor}}; font-family:{{titleFont}}; font-size:{{titleSize}}px; text-align:{{titleFloat}}; color:{{titleColor}}; padding:3px;">{{ title }}</div>
   {% endif %}
@@ -13,7 +17,7 @@
     {% for badge in badges %}
         <div style="padding:10px; float:left;">
           {% if badge.resource %}
-            <a href="{{ badge.resource }}">
+            <a href="{{ badge.resource }}" target="_blank">
           {% endif %}
             <img height="{{imageSize}}" width="{{imageSize}}" src="{{badge.downloadLink}}" alt="{{badge.reason}}">
           {% if badge.resource %}
@@ -33,7 +37,7 @@
     {% endfor %}
   {% else  %}
     {% if displayNoBadgesMessage %}
-      <div style="display:block; font-family:{{noBadgesFont}}; font-size:{{noBadgesSize}}px; text-align:{{noBadgesFloat}}; color:{{reasonColor}};">
+      <div style="display:block; font-family:{{noBadgesFont}}; font-size:{{noBadgesSize}}px; text-align:{{noBadgesFloat}}; color:{{noBadgesColor}};">
         {{noBadgesMessage}}
       </div>
     {% endif %}

@@ -19,10 +19,10 @@ from serverside.constants import WEB_ADMIN_PARAMS, TEMPLATE_PATHS
 from serverside.entities import memcache_db
 from serverside.session import Session
 from serverside.dao import accounts_dao
+from serverside import update_account 
 import logging
 import time
 import uuid
-
 
 
 class SignIn(webapp.RequestHandler):
@@ -38,6 +38,7 @@ class SignIn(webapp.RequestHandler):
     if email != None and email != "" and password != None and password != "":
       entity = accounts_dao.authenticate_web_account(email, password)
       if entity:
+        update_account.update_account(entity.key().name())
         Session().create_session(self, email, str(uuid.uuid4()), str(time.time() + WEB_ADMIN_PARAMS.VALID_FOR_SECONDS))
         self.redirect("/adminconsole")
       else:

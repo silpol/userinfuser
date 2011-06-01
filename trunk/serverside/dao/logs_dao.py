@@ -24,11 +24,17 @@ from serverside.entities.logs import Logs
 from google.appengine.api import urlfetch
 
 import logging
+import random
+import string
+def gen_random(length):
+  return ''.join(random.choice(string.letters) for i in xrange(length))
+
 def save_log(diction):
   if "event" not in diction:
     logging.error("No event type in log")
     return
-  newlog = Logs(event=diction['event'])
+  key = gen_random(20)
+  newlog = Logs(key_name=key, event=diction['event'])
   props = newlog.properties()
   for ii in diction:
     if ii in props:

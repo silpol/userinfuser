@@ -14,12 +14,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import constants
-import environment
-import logging
-import messages
-import uuid
-
 from constants import ACCOUNT_STATUS
 from django.utils import simplejson
 from entities import memcache_db
@@ -28,10 +22,16 @@ from google.appengine.api import mail
 from google.appengine.ext import webapp
 from google.appengine.ext.db import NotSavedError
 from google.appengine.ext.webapp import template
-from serverside.dao import accounts_dao
+from serverside.dao import accounts_dao, pending_create_dao
 from serverside.entities.emails import Email
 from tools import utils
 from tools.xss import XssCleaner
+import constants
+import environment
+import logging
+import messages
+import uuid
+
 
 json = simplejson
 
@@ -61,8 +61,10 @@ class SignUp(webapp.RequestHandler):
               'error': True}
     
     id = self.request.get("activate")
-    
+    error_message = self.request.get("error_msg") 
     if id == None or id == "":
+      if error_message:
+        values['error_message'] = error_message
       logging.error("Activation attempted without ID")
     else:
       """Look up the account in pending creates table"""
@@ -108,12 +110,14 @@ class SignUp(webapp.RequestHandler):
       if show_links == "yes":
         values['givelinks'] = True 
       self.response.out.write(template.render(constants.TEMPLATE_PATHS.CONSOLE_SIGN_UP, values))
+      logging.error("Bad email %s"%email)
       return
     if password != repeat_password:
       values = {"success" : False,
                 "message" : "ERROR: Passwords did not match."}
       if show_links == "yes":
         values['givelinks'] = True 
+      logging.error("Bad passwords for email %s"%email)
       self.response.out.write(template.render(constants.TEMPLATE_PATHS.CONSOLE_SIGN_UP, values))
       return   
     ent_type = 'Accounts'
@@ -133,6 +137,23 @@ class SignUp(webapp.RequestHandler):
                 "message" : message}
         if show_links == "yes":
           values['givelinks'] = True 
+      elif existing_account.isEnabled == ACCOUNT_STATUS.PENDING_CREATE:
+        """ REPEAT SIGN UP WITH UNACTIVATED ACCOUNT!!!!!!!!! """
+        """ send the email again with the same activation ID """
+        pc = pending_create_dao.get_id_by_email(email)
+        activate_url = get_activate_url(pc.id)
+        email_sent = send_email(email, activate_url)
+        logging.info("Repeat sign up for account that was not activated yet. An email will be sent to with same activation link. Email: " + email + ", activation link: " + activate_url)
+        message = ""
+        if email_sent:
+          message = "An email has been sent to you with a link to activate your account!"
+        else:
+          message = "There was an error during account creation. Please send an email to support@cloudcaptive.com"
+        values = {"success" : True,
+                  "message" : message}
+        if show_links == "yes":
+          values['givelinks'] = True 
+        
       else:
         message = "ERROR: An account using this email address already exists. Contact support@cloudcaptive for support."
         values = {"success" : False,
@@ -150,19 +171,9 @@ class SignUp(webapp.RequestHandler):
           
       
       """send an email to user to complete set up, get arguments in the string will be email and cookie ID"""
-      activate_url = constants.WEB_SIGNUP_URLS.ACTIVATE_URL + "?activate=" + id
+      activate_url = get_activate_url(id)
       logging.info("Activation URL for account: " + email + " is " + activate_url)
-      
-      email_sent = False
-      try:  
-        mail.send_mail(sender="UserInfuser <raj@cloudcaptive.com>",
-                       to=email,
-                       subject="Welcome to UserInfuser!",
-                       body= messages.get_activation_email(activate_url))
-        email_sent = True
-      except:
-        email_sent = False
-        logging.error("Error sending account activation email to account: " + email)
+      email_sent = send_email(email, activate_url)
   
       message = ""
       if email_sent:
@@ -176,5 +187,18 @@ class SignUp(webapp.RequestHandler):
     """ Render result with whatever values were filled in above """  
     self.response.out.write(template.render(constants.TEMPLATE_PATHS.CONSOLE_SIGN_UP, values))
       
-            
-        
+def get_activate_url(id):
+  return constants.WEB_SIGNUP_URLS.ACTIVATE_URL + "?activate=" + id
+
+def send_email(email, activate_url):
+  email_sent = False
+  try:  
+    mail.send_mail(sender="UserInfuser <" + constants.APP_OWNER_EMAIL + ">",
+                   to=email,
+                   subject="Welcome to UserInfuser!",
+                   body= messages.get_activation_email(activate_url))
+    email_sent = True
+  except:
+    email_sent = False
+    logging.error("Error sending account activation email to account: " + email + ", activation url was: " + activate_url)
+  return email_sent

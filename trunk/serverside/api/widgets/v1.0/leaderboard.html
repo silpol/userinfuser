@@ -29,7 +29,11 @@
 </style> 
 </head>
 <body>
-<div style="background-color:{{backgroundColor}}; visibility: visible; border:{{borderThickness}}px {{borderStyle}} {{borderColor}}; height:{{height}}px; width:{{width}}px; overflow:hidden; ">
+<div style="background-color:{{backgroundColor}}; 
+{% if hasRoundedCorners %}
+border-radius: 10px 10px 10px 10px;
+{% endif %}
+visibility: visible; border:{{borderThickness}}px {{borderStyle}} {{borderColor}}; height:{{height}}px; width:{{width}}px; overflow:hidden; ">
   {% if displayTitle %}
     <div class="title" style="">{{ title }}</div>
   {% endif %}
@@ -53,7 +57,7 @@
               <tr>
                <td width="{{imageSize}}">     
                 {% if user.profileLink %}
-                <a href="{{user.profileLink}}">
+                <a href="{{user.profileLink}}" target="_blank">
                 {% endif %}
 
                 <img class="avatar" style="border-style:none;" height="{{imageSize}}px" width="{{imageSize}}px" src=
@@ -68,7 +72,7 @@
                </td>
                <td class="avtext name">
                 {% if user.profileLink %}
-                <a href="{{user.profileLink}}">
+                <a href="{{user.profileLink}}" target="_blank">
                 {% endif %}
                 {{ user.profileName }} 
 {% if user.profileLink %}</a>

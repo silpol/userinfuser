@@ -32,6 +32,7 @@ from serverside.entities.widgets import Rank
 from serverside.entities.widgets import Points
 from serverside.entities.widgets import Notifier
 from serverside.entities.widgets import TrophyCase
+from serverside.entities.widgets import Milestones
 from serverside.dao import badges_dao
 from serverside.dao import accounts_dao
 from serverside.dao import users_dao
@@ -96,14 +97,19 @@ def get_top_users(acc_ref):
     error("Unable to get users because of missing account ref") 
     return None
   result = db.GqlQuery("SELECT * FROM Users WHERE accountRef=:1 ORDER BY points DESC LIMIT " + constants.TOP_USERS, acc_ref)
-  for ii in result:
+  filtered = []
+  for index,ii in enumerate(result):
+    delete_index = -1
     try:
       if ii.profileImg == None or ii.profileImg == "":
         ii.profileImg = constants.IMAGE_PARAMS.USER_AVATAR
     except:
       ii.profileImg = constants.IMAGE_PARAMS.USER_AVATAR
-      
-  return result
+    if ii.userid != constants.ANONYMOUS_USER:
+      if not ii.profileName:
+        ii.profileName = "Anonymous"
+      filtered.append(ii) 
+  return filtered
 
 def calculate_rank(user_ref, acc_ref):
   rank = constants.NOT_RANKED
@@ -176,6 +182,13 @@ def bad_args():
   ret = {'status':'failed',
          'errcode':constants.API_ERROR_CODES.BAD_ARGS,
          'error':'Number of points is not an integer'} 
+  ret = json.dumps(ret)
+  return ret 
+
+def bad_user():
+  ret = {'status':'failed',
+         'errcode':constants.API_ERROR_CODES.BAD_USER,
+         'error':'Invalid user provided'}
   ret = json.dumps(ret)
   return ret 
 
@@ -707,6 +720,9 @@ class API_1_GetWidget(webapp.RequestHandler):
       self.response.out.write(auth_error())
       return 
 
+    if not user_id and widget_type in constants.WIDGETS_THAT_DONT_NEED_A_USER:
+      user_id = constants.ANONYMOUS_USER
+
     if not user_id:
       logdiction['success'] = 'false'
       logdiction['details'] = bad_args()
@@ -717,7 +733,10 @@ class API_1_GetWidget(webapp.RequestHandler):
     user_ref = None
     if user_id: 
       user_ref = users_dao.get_user_with_key(user_id)
-    
+
+    if not user_ref and user_id == constants.ANONYMOUS_USER:
+      users_dao.create_new_user(account_id, constants.ANONYMOUS_USER) 
+
     #acc_ref = users_dao.get_account_from_user(user_ref)
     # TODO Need to measure if there is an actual gain from this prefetching
     # or if it's causing unnecessary contention
@@ -774,7 +793,6 @@ class API_1_GetWidget(webapp.RequestHandler):
 
   def trophy_case_values(self, user_ref, acc_ref, height, width):
     badges = badges_dao.get_user_badges(user_ref)
-    #TODO read up on prefetching on Nick Johnson's blog
     tcase_ref = None
     if not acc_ref:
       tcase_ref = TrophyCase()
@@ -847,9 +865,87 @@ class API_1_GetWidget(webapp.RequestHandler):
     return ret
 
   def milestones_values(self, user_ref, acc_ref, height, width):
-    # here we get the customer milestone settings
-    # Grab all badges which the user has made strides towards
-    pass
+    user_badges = badges_dao.get_user_badges(user_ref)
+    acc_badges = badges_dao.get_rendereable_badgeset(acc_ref)
+    mcase_ref = None
+    if not acc_ref:
+      mcase_ref = Milestones()
+    else:
+      try:
+        mcase_ref = acc_ref.milestoneWidget
+      except:
+        mcase_ref = widgets_dao.add_milestones(acc_ref)
+
+    if user_ref and user_ref.userid == constants.ANONYMOUS_USER:
+      user_badges = []
+
+    badge_count = 0
+    display_badges = []
+    for badge in user_badges:
+      b = {}
+      if badge.awarded == "yes":
+        b["awarded"] = True
+      else:
+        b["awarded"] = True
+      b["id"] = badge_count 
+      b["awarded"] = badge.awarded
+      b["pointsRequired"] = badge.pointsRequired
+
+      # backward compatibility
+      if badge.pointsRequired == 9999999999:
+        b["pointsRequired"] = 0
+   
+      if badge.pointsEarned > badge.pointsRequired:
+        b["pointsEarned"] = badge.pointsRequired
+      else:  
+        b["pointsEarned"] = badge.pointsEarned
+      b["resource"] = badge.resource
+      b["reason"] = badge.reason
+      b["downloadLink"] = badge.downloadLink
+      b["id"] = badge_count
+      b["badgeRef"] = badge.badgeRef
+      badge_count += 1
+      display_badges.append(b)
+    # Put all badges that have not been awarded
+    to_add = []
+    for aa in acc_badges:
+      is_there = False
+      for dd in display_badges:
+        if aa["key"] == dd["badgeRef"].key().name():
+          is_there = True
+      if not is_there:
+        b = {}
+        b["id"] = badge_count 
+        b["awarded"] = False
+        b["pointsEarned"] = 0
+        b["pointsRequired"] = 0
+        # This name should not have changed
+        b["resource"] = ""
+        b["reason"] = aa["description"]
+        b["downloadLink"] = aa["downloadLink"]
+        badge_count += 1
+        to_add.append(b)
+    display_badges.extend(to_add)
+    ret = {"status":"success"}
+     
+    for ii in mcase_ref.properties():
+      ret[ii] = getattr(mcase_ref, ii)
+    ret["badges"] = display_badges
+
+    # Internal div's need to be slighy smaller than the iframe
+    if width and height:
+      try:
+        width = int(width)
+        height = int(height)
+        # How did I get this equation? Trial and error.
+        height = height - 2 *int(ret['borderThickness']) - 8
+        width = width - 2 *int(ret['borderThickness']) - 8
+        ret['height'] = height
+        ret['width'] = width
+      except:
+        pass
+    ret['barSize'] = ret['imageSize']
+    return ret 
 
   def leaderboard_values(self, user_ref, acc_ref, height, width):
     leader_ref = None
@@ -1063,6 +1159,7 @@ class API_1_TestCleanup(webapp.RequestHandler):
     rank_widget = Rank(key_name=account_id)
     notifier_widget = Notifier(key_name=account_id)
     leader_widget = Leaderboard(key_name=account_id)
+    milestones_widget = Milestones(key_name=account_id)
     acc = Accounts(key_name=account_id,
                    email=account_id,
                    password="xxxxxxxxx",
@@ -1074,7 +1171,8 @@ class API_1_TestCleanup(webapp.RequestHandler):
                    trophyWidget=trophy_case_widget,
                    pointsWidget=points_widget,
                    rankWidget=rank_widget,
-                   leaderWidget=leader_widget)
+                   leaderWidget=leader_widget,
+                   milestoneWidget=milestones_widget)
 
      # delete ten badges
     for ii in range(0,10):
@@ -1087,6 +1185,7 @@ class API_1_TestCleanup(webapp.RequestHandler):
     widgets_dao.delete_widget(account_id, "Rank")
     widgets_dao.delete_widget(account_id, "Leaderboard")
     widgets_dao.delete_widget(account_id, "Notifier")
+    widgets_dao.delete_widget(account_id, "Milestones")
     accounts_dao.delete_account(account_id)
     self.response.out.write(success_ret())
     return

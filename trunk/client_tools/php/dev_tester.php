@@ -237,6 +237,15 @@ print $gi->get_widget($testId, "notifier", 400,200);
 print $gi->get_widget($testId, "trophy_case", 400,200);
 print $gi->get_widget($testId, "points", 400,200);
 print $gi->get_widget($testId, "leaderboard", 400,200);
+print $gi->get_widget($testId, "milestones", 400,200);
+print "ANONYMOUS WIDGETS";
+print $gi->get_widget("", "rank", 400,200);
+print $gi->get_widget("", "notifier", 400,200);
+print $gi->get_widget("", "trophy_case", 400,200);
+print $gi->get_widget("", "points", 400,200);
+print $gi->get_widget("", "leaderboard", 400,200);
+print $gi->get_widget("", "milestones", 400,200);
+
 
 $gi = new UserInfuser($account, $apiKey);
 $ui_bad = new UserInfuser($account . "x", $apiKey . "x");

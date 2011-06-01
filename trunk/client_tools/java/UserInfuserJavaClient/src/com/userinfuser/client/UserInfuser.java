@@ -52,8 +52,6 @@ public class UserInfuser
 	private String f_apiKey;
 	
 	private boolean f_encrypt;
-	private boolean f_debugMode;
-	private boolean f_local;
 	private boolean f_syncAll;
 	
 	private final static String ENCODING = "UTF-8";
@@ -76,8 +74,6 @@ public class UserInfuser
 		f_accountId = accountId;
 		f_apiKey = apiKey;
 		
-		f_debugMode = false;
-		f_local = false;
 		f_syncAll = false;
 		
 		// not secure by default
@@ -104,8 +100,6 @@ public class UserInfuser
 	{
 		f_accountId = accountId;
 		f_apiKey = apiKey;
-		f_debugMode = debug;
-		f_local = local;
 		f_syncAll = syncAll;
 		f_encrypt = encrypt;
 		
@@ -250,7 +244,7 @@ public class UserInfuser
 		
 		String targetPath = f_usePath + Constants.API_VERSION + "/" + Constants.PATH_AWARD_BADGE;
 		final String response = doPost(targetPath, params);
-
+		
 		return true;
 	}
 	
@@ -279,7 +273,7 @@ public class UserInfuser
 		
 		final String targetPath = f_usePath + Constants.API_VERSION + "/" + Constants.PATH_REMOVE_BADGE;
 		final String response = doPost(targetPath, params);
-
+		
 		return true;
 	}
 	
@@ -324,7 +318,7 @@ public class UserInfuser
 		
 		final String targetPath = f_usePath + Constants.API_VERSION + "/" + Constants.PATH_AWARD_POINTS;
 		final String response = doPost(targetPath, params);
-
+		
 		return true;
 	}
 	
@@ -413,7 +407,7 @@ public class UserInfuser
 	 * Retrieve the HTML, with height and width specified.
 	 * 
 	 * @param userId A unique identifier per user. It can be an email, user
-	 *            name, etc.
+	 *            name, etc. If not specified a default widget will be returned.
 	 * @param widgetType Specify the widget that you want rendered. Use
 	 *            WidgetType enum.
 	 * @param height Specify height of widget.
@@ -427,12 +421,16 @@ public class UserInfuser
 		return _getWidget(userId, widgetType, Integer.toString(height), Integer.toString(width));
 	}
 	
-	private String _getWidget(final String userId, final WidgetType widgetType, final String height, final String width)
+	private String _getWidget(String userId, final WidgetType widgetType, final String height, final String width)
 	{
+		if (userId == null || userId.equals(""))
+		{
+			userId = Constants.UI_ANONYMOUS;
+		}
 		MessageDigest md = null;
 		try
 		{
-			md = MessageDigest.getInstance(HASHING_ALGORITHM); 
+			md = MessageDigest.getInstance(HASHING_ALGORITHM);
 		}
 		catch (NoSuchAlgorithmException e)
 		{
@@ -445,11 +443,11 @@ public class UserInfuser
 		
 		if (widgetType != WidgetType.NOTIFIER)
 		{
-			return "<iframe style='border:none' height='" + height + "px' width='" + width + "px' scrolling='no' src='" + widgetPath + "?widget=" + widgetType.getName() + "&u=" + hashedArg + "&height=" + height + "&width=" + width + "'>Sorry your browser does not support iframes!</iframe>";
+			return "<iframe style='border:none' height='" + height + "px' width='" + width + "px' allowtransparency='true' scrolling='no' src='" + widgetPath + "?widget=" + widgetType.getName() + "&u=" + hashedArg + "&height=" + height + "&width=" + width + "'>Sorry your browser does not support iframes!</iframe>";
 		}
 		else
 		{
-			return "<script type='text/javascript' src=" + widgetPath + "?widget=" + widgetType.getName() + "&u=" + hashedArg + "&height=" + height + "&width=" + width + "&t=outside'></script> <iframe src='" + widgetPath + "?widget=" + widgetType.getName() + "&u=" + hashedArg + "&height=" + height + "&width=" + width + "&t=inside width=\"0\" height=\"0\" frameborder=\"0\" scrolling=\"no\" name=\"ui__notifier\"'>Your browser is not supported. Sorry!</iframe>";
+			return "<script type='text/javascript' src=" + widgetPath + "?widget=" + widgetType.getName() + "&u=" + hashedArg + "&height=" + height + "&width=" + width + "&t=outside'></script> <iframe src='" + widgetPath + "?widget=" + widgetType.getName() + "&u=" + hashedArg + "&height=" + height + "&width=" + width + "&t=inside width=\"0\" height=\"0\" frameborder=\"0\" allowtransparency='true' scrolling=\"no\" name=\"ui__notifier\"'>Your browser is not supported. Sorry!</iframe>";
 		}
 		
 	}

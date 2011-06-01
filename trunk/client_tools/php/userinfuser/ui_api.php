@@ -27,6 +27,7 @@
   define('UI_CONSTANTS_AWARD_POINTS_PATH','awardpoints');
   define('UI_CONSTANTS_WIDGET_PATH','getwidget');
   define('UI_CONSTANTS_TIMEOUT',10);
+  define('UI_CONSTANTS_ANONYMOUS','__ui__anonymous__');
   /*****************************************
   * Class: UserInfuser
   * Parameters: 
@@ -349,11 +350,14 @@
       if (!in_array($widget_type, $this->valid_widgets)){
         throw new Exception("Unknown widget type $widget_type\n"); 
       }
+      if ($user_id == ""){
+        $user_id = UI_CONSTANTS_ANONYMOUS;
+      }
       $this->__prefetch_widget($widget_type, $user_id);
       $userhash = sha1($this->account.'---'.$user_id);
       if ($widget_type != "notifier"){
         return "<iframe style='border:none' height='".$height."px' width='".
-          $width."px' scrolling='no' src='".$this->widget_path."?widget=".
+          $width."px' scrolling='no' allowtransparency='true' src='".$this->widget_path."?widget=".
           $widget_type."&u=".$userhash."&height=".$height."&width=".
           $width."'>Sorry your browser does not support iframes!</iframe>";
       }

@@ -14,18 +14,31 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 import os
-APP_NAME = "cloudcaptive-userinfuser"
-ADMIN_ACCOUNT = "admin@" + APP_NAME + ".appspot.com"
+
+# CHANGE THIS FOR CUSTOMER DEPLOYMENTS 
+APP_NAME = os.environ['APPLICATION_ID']
+APP_OWNER_EMAIL = "raj@cloudcaptive.com"
 
 # Only valid for localhost testing
 # Sign up twice with these accounts to get around the email validation
 TEST_ACCOUNTS = ["raj@cloudcaptive.com","shanrandhawa@gmail.com","shan@cloudcaptive.com"]
+
+ADMIN_ACCOUNT = "admin@" + APP_NAME + ".appspot.com"
 DEBUG = True
 ACCOUNT_TYPES = ["admin", "bronze", "silver", "gold", "platinum"]
 PAYMENT_TYPES = ["free", "trial", "paid", "exempt"]
 DEV_URL = "http://localhost:8080"
 PRODUCTION_URL= "http://"+APP_NAME+".appspot.com"
 SECURE_PRODUCTION_URL = "https://"+APP_NAME+".appspot.com"
+
+
+"""
+Use the following constants for generating widget previews on the admin console
+These are API constants.
+"""
+CONSOLE_GET_WIDGET_DEV = "http://localhost:8080/api/1/getwidget"
+CONSOLE_GET_WIDGET_PROD = "https://"+APP_NAME+".appspot.com/api/1/getwidget"
+
 
 AES_ENCRYPTION_KEYNAME = "aes_encryption_key"
 ENCRYPTION_KEYNAME = "encryption_key"
@@ -73,6 +86,10 @@ class LOGGING:
   SECRET_KEYNAME = "secret_log_key"
   PATH = '/logevents'
 
+class UPDATE:
+  SECRET_KEYNAME = "secret_update_key"
+  PATH = '/updateaccount'
+
 class IMAGE_PARAMS:
   DEFAULT_SIZE = 150
   LEADER_SIZE = 90 
@@ -88,6 +105,7 @@ class API_ERROR_CODES:
   USER_NOT_FOUND = 3
   INTERNAL_ERROR = 4 
   BAD_ARGS = 5
+  BAD_USER = 6
 
 class ACCOUNT_STATUS:
   """Enum(ish) of account status"""
@@ -108,6 +126,7 @@ class TEMPLATE_PATHS:
   
   RENDER_TROPHY_CASE = os.path.join(os.path.dirname(__file__), 'api/widgets/v1.0/trophy_case.html')
   RENDER_NOTIFIER = os.path.join(os.path.dirname(__file__), 'api/widgets/v1.0/notifier.html')
+  RENDER_MILESTONES = os.path.join(os.path.dirname(__file__), 'api/widgets/v1.0/milestones.html')
   RENDER_POINTS = os.path.join(os.path.dirname(__file__), 'api/widgets/v1.0/points.html')
   RENDER_RANK = os.path.join(os.path.dirname(__file__), 'api/widgets/v1.0/rank.html')
   RENDER_LEADERBOARD = os.path.join(os.path.dirname(__file__), 'api/widgets/v1.0/leaderboard.html')
@@ -156,10 +175,12 @@ ADMINPASSWD = "u8u8u9i9i"
 ADMINKEY = "u8u89i9i"
 
 VALID_WIDGETS = ["trophy_case", "notifier", "milestones", "points", "leaderboard", "rank"]
-
+WIDGETS_THAT_DONT_NEED_A_USER = ["milestones", "leaderboard"]
+ANONYMOUS_USER = "__ui__anonymous__"
 LOCAL_URL = "http://localhost:8080/"
 MAX_BADGE_SIZE = 2<<16 # 128k
-
+NOTIFIER_SIZE_DEFAULT = 180
 NOT_RANKED = -1 # For unranked users
 NUMBER_RANKED = "10000" #Anyone not in the top 10k is not ranked
 TOP_USERS = "10"
+

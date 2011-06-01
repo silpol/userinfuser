@@ -26,3 +26,4 @@ AWARD_POINTS_PATH = "awardpoints"
 WIDGET_PATH = "getwidget"
 CREATE_BADGE_PATH= "createbadge"
 RAISE_EXCEPTIONS = False
+ANONYMOUS = "__ui__anonymous__"

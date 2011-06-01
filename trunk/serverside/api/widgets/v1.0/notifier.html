@@ -82,7 +82,11 @@ type="text/javascript">
 
 </script>
 <div id="container" style=
-"display:none; overflow:hidden; height={{height}}px; widget={{width}}px;">
+"display:none; 
+{% if hasRoundedCorners %}
+border-radius: 10px 10px 10px 10px;
+{% endif %}
+overflow:hidden; height={{height}}px; widget={{width}}px;">
 <div style=
 "overflow:hidden; background-color:{{backgroundColor}}; visibility: visible; border:{{borderThickness}}px {{borderStyle}} {{borderColor}}; height:{{height}}px; width:{{width}}px; overflow:auto;">
 {% if displayTitle %}
