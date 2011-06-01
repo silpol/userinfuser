@@ -23,11 +23,14 @@ psuedo DAO methods
 from serverside.constants import ACCOUNT_STATUS
 from serverside.entities import memcache_db
 from serverside.entities.accounts import Accounts
-from serverside.entities.widgets import TrophyCase, Points, Rank, Notifier, Leaderboard
-import uuid
+from serverside.entities.widgets import TrophyCase, Points, Rank, Notifier, \
+  Leaderboard, Milestones
+from serverside import constants 
+from serverside.tools import utils
+from serverside.dao import users_dao
 import hashlib
 import logging
-from serverside.tools import utils
+import uuid
 
 
 def create_account(email, 
@@ -67,7 +70,11 @@ def create_account(email,
   memcache_db.save_entity(new_notifier, email)
  
   new_leader = Leaderboard(key_name=email)
-  memcache_db.save_entity(new_leader, email) 
+  memcache_db.save_entity(new_leader, email)
+  
+  new_milestones = Milestones(key_name=email)
+  memcache_db.save_entity(new_milestones, email)
+  
   """ Generate an API key """
   api_key = str(uuid.uuid4())
   
@@ -90,19 +97,22 @@ def create_account(email,
                       pointsWidget = new_points,
                       rankWidget = new_rank,
                       notifierWidget = new_notifier,
-                      leaderWidget = new_leader)
+                      leaderWidget = new_leader,
+                      milestoneWidget = new_milestones)
   
   try:
     memcache_db.save_entity(newacc, email)
   except:
     logging.error("Failed to create account")
-  
+ 
+  users_dao.create_new_user(email, constants.ANONYMOUS_USER)
+ 
   return newacc
 
 
 def authenticate_web_account(account_id, password):
   entity = memcache_db.get_entity(account_id, "Accounts")
-  if entity != None and entity.password == hashlib.sha1(password).hexdigest():
+  if entity != None and entity.password == hashlib.sha1(password).hexdigest() and entity.isEnabled == ACCOUNT_STATUS.ENABLED:
     return entity
   else:
     return None

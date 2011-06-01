@@ -22,7 +22,6 @@ from serverside import constants
     Description: Settings for rendering TrophyCase
 """
 class TrophyCase(db.Model):
-  # This is 1 for True, 0 for False
   backgroundColor = db.StringProperty( default="#eeeeff")
   borderThickness = db.IntegerProperty( default=1)
   borderColor = db.StringProperty( default="#4488FF")
@@ -183,7 +182,7 @@ class Rank(db.Model):
   borderStyle = db.StringProperty( default="solid")
   height = db.IntegerProperty( default=100)
   width = db.IntegerProperty( default=120)
-  hasRoundedCorners = db.BooleanProperty(default=True)
+  hasRoundedCorners = db.BooleanProperty(default=False)
   # Title
   displayTitle = db.BooleanProperty( default=True)
   title = db.StringProperty( default="Your Ranking")
@@ -199,41 +198,27 @@ class Rank(db.Model):
   rankFloat = db.StringProperty( default="center")
 
 class Milestones(db.Model):
-  backgroundColor = db.StringProperty( default="gray")
+  backgroundColor = db.StringProperty( default="#eeeeff")
   borderThickness = db.IntegerProperty( default=1)
   borderColor = db.StringProperty( default="#4488FF")
   borderStyle = db.StringProperty( default="solid")
   height = db.IntegerProperty( default=500)
-  width = db.IntegerProperty( default=1000)
+  width = db.IntegerProperty( default=270)
   hasRoundedCorners = db.BooleanProperty(default=False)
-  # Title
-  displayTitle = db.BooleanProperty( default=True)
-  title = db.StringProperty( default="Milestones")
-  titleColor = db.StringProperty( default="black")
-  titleSize = db.IntegerProperty( default=14)
-  titleFont = db.StringProperty( default="Arial")
-  titleFloat = db.StringProperty( default="center")
-
-# Think about this more, resetting, point counting
-class BadgeListing(db.Model):
-  # This is 1 for True, 0 for False
-  backgroundColor = db.StringProperty( default="#EEEEFF")
-  borderThickness = db.IntegerProperty( default=1)
-  borderColor = db.StringProperty( default="#4488FF")
-  borderStyle = db.StringProperty( default="solid")
-  height = db.IntegerProperty( default=600)
-  width = db.IntegerProperty( default=400)
-  hasRoundedCorners = db.BooleanProperty(default=False)
-
   # Title
   titleBackgroundColor = db.StringProperty(default="#4488FF")
   displayTitle = db.BooleanProperty( default=True)
-  title = db.StringProperty( default="Badges")
+  title = db.StringProperty( default="Badge Progress")
   titleColor = db.StringProperty( default="white")
-  titleSize = db.IntegerProperty( default=14)
+  titleSize = db.IntegerProperty( default=20)
   titleFont = db.StringProperty( default="Arial")
   titleFloat = db.StringProperty( default="center")
-
+  # Date
+  displayDate = db.BooleanProperty( default=True)
+  dateColor = db.StringProperty( default="black")
+  dateSize = db.IntegerProperty( default=8)
+  dateFont = db.StringProperty( default="Arial")
+  dateFloat = db.StringProperty( default="center")
   # Reason for getting badge
   displayReason = db.BooleanProperty( default=True)
   reasonColor = db.StringProperty( default="black")
@@ -244,15 +229,6 @@ class BadgeListing(db.Model):
   # Random/Misc
   allowSorting = db.BooleanProperty( default=True)
   imageSize = db.IntegerProperty( default=100) 
-  hasRoundedCorners = db.BooleanProperty( default=True)
   scrollable = db.BooleanProperty( default=False)
-
-  # what to display if there is an empty case
-  displayNoBadgesMessage = db.BooleanProperty( default=True)
-  noBadgesMessage = db.StringProperty( default="No Badges Here.")
-  noBadgesFont = db.StringProperty( default="Arial")
-  noBadgesSize = db.IntegerProperty( default=12)
-  noBadgesFloat = db.StringProperty( default="center")
-  noBadgesColor = db.StringProperty( default="red")
 
 

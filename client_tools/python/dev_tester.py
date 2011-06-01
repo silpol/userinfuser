@@ -31,12 +31,14 @@ testId3 = "anotheruserxxxx"
 badgeId1 = "music-1-private"
 badgeId2 = "music-2-private"
 badgeId3 = "music-3-private"
+badgeId9 = "music-9-private"
+
 testSecret = "8u8u9i9i"
 # Set API key
 apiKey = "ABCDEFGHI"
 DEFAULT_DEBUG = True
 # Turn this off/on to leave or delete data from the db 
-cleanup = True
+cleanup = False
 def __url_post(url, argsdic):
   import urllib
   import urllib2
@@ -159,7 +161,7 @@ except ui_errors.BadgeDoesNotExist:
 checkerr(lineno(), success, False)   
 
 
-checkerr(lineno(), ui_good.award_badge(testId, badgeId2, reason="Maven"), True)
+checkerr(lineno(), ui_good.award_badge(testId, badgeId2, reason='Maven'), True)
 success = True
 try:
   success =ui_bad.award_badge(testId, badgeId2, reason="For Fun")
@@ -312,6 +314,10 @@ checknotstr(lineno(), str(ui_good.get_user_data(testId)), badgeId3)
 checkerr(lineno(), ui_good.award_badge_points(testId, badgeId3, 70, 100, reason="Lobster Bisque mmmm"), True)
 checkerr(lineno(), ui_good.award_badge_points(testId, badgeId3, 70, 100, reason="ice cream sandwiches"), True)
 checkerr(lineno(), ui_good.award_badge_points(testId, badgeId3, 70, 100, reason="Good Times"), True)
+
+# partial award
+checkerr(lineno(), ui_good.award_badge_points(testId, badgeId9, 10, 100, reason="Almost there"), True)
+
 time.sleep(2)
 checkstr(lineno(), str(ui_good.get_user_data(testId)), badgeId3)
 success = ui_bad.award_badge(testId, badgeId2, reason="For fun")
@@ -359,7 +365,10 @@ ui_good.award_points(testId2, 10)
 checkerr(lineno(), ui_good.update_user(testId3), True)
 ui_good.create_badge("apple","oranges","fruit", "http://cdn1.iconfinder.com/data/icons/Futurosoft%20Icons%200.5.2/128x128/apps/limewire.png")
 ui_good.award_badge("testuserid", "oranges-apple-private", reason="FRUIT!")
+checkerr(lineno(), ui_good.award_badge_points(testId, "music-4-private", 10, 100, reason="Power User"), True)
 time.sleep(1)
+
+# award partial badge points 
 #Delete the DB badges with an account and badges
 if cleanup:
   ret = __url_post(delete_path, argsdict)
@@ -373,6 +382,13 @@ if cleanup:
   ret = __url_post(prime_path, argsdict)
   ret = __url_post(delete_path, argsdict)
   checkstr(lineno(), ret, "success")
+
+print ui_good.get_widget(testId, "trophy_case")
+print ui_good.get_widget(testId, "milestones")
+print ui_good.get_widget(testId, "points")
+print ui_good.get_widget(testId, "rank")
+print ui_good.get_widget(testId, "notifier")
+print ui_good.get_widget(testId, "leaderboard")
  
 # Need to test awarding a badge via points
 print "SUCESS" 

@@ -23,7 +23,8 @@ psuedo DAO methods
 from serverside.entities.users import Users
 from serverside.entities.accounts import Accounts
 from serverside.entities import memcache_db
-
+from serverside import constants 
+from serverside.dao import badges_dao
 import logging
 import hashlib 
 class ORDER_BY:
@@ -43,7 +44,7 @@ def get_user(account_id, user_id):
     logging.error("Error getting key %s for user %s and account %s"%\
           (user_key, user_id, account_id))
     return None
-  return user_ref
+  return user_ref 
 
 def get_users_by_page_by_order(account, offset, limit, order_by, asc = "ASC"):
   """
@@ -65,7 +66,6 @@ def create_new_user(account_id, user_id):
   """
   account_entity = memcache_db.get_entity(account_id, "Accounts")
   
-  from serverside.api import api
   user_key= get_user_key(account_id, user_id)
   new_user = Users(key_name=user_key,
                    userid=user_id,
@@ -140,6 +140,15 @@ def update_user(user_key, dict, incr_fields):
   return memcache_db.update_fields(user_key, "Users", fields=dict, increment_fields=incr_fields)
 
 def delete_user(user_key):
+  user_ref = get_user_with_key(user_key)
+  if not user_ref:
+    logging.error("Unable to get user with key: " + str(user_key))
+    return 
+
+  badges = badges_dao.get_user_badges(user_ref)
+  for b in badges:
+    badges_dao.delete_badge_instance(b.key().name())
+
   return memcache_db.delete_entity_with_key(user_key, "Users")
 
 def set_user_points(account_id, user_id, points):

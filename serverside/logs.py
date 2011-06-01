@@ -25,6 +25,7 @@ from serverside import constants
 from serverside import environment
 from serverside.dao import logs_dao
 from serverside.dao import passphrase_dao 
+from google.appengine.api import taskqueue
 
 class LogEvent(webapp.RequestHandler):
   def post(self):
@@ -48,11 +49,17 @@ application = webapp.WSGIApplication([
   (constants.LOGGING.PATH, LogEvent)
 ], debug=constants.DEBUG)
 
-def __url_async_post(url, argsdic):
+def __url_async_post(worker_url, argsdic):
   # This will not work on the dev server for GAE, dev server only uses
   # synchronous calls, unless the SDK is patched, or using AppScale
-  rpc = urlfetch.create_rpc(deadline=10)
-  urlfetch.make_fetch_call(rpc, url, payload=urllib.urlencode(argsdic), method=urlfetch.POST)
+  #rpc = urlfetch.create_rpc(deadline=10)
+  # Convert over to utf-8 for non-ascii (internationalization)
+  for kk,vv in argsdic.items():
+    if vv.__class__.__name__ in ['str', 'unicode']:
+      argsdic[kk] = vv.encode('utf-8') 
+  logging.info("Worker " + str(worker_url))
+  taskqueue.add(url=worker_url, params=argsdic)
+  #urlfetch.make_fetch_call(rpc, url, payload=urllib.urlencode(argsdic), method=urlfetch.POST)
 
 def full_path(relative_url):
   if environment.is_dev():
@@ -63,7 +70,7 @@ def full_path(relative_url):
 def create(diction):
   diction['key'] = passphrase_dao.get_log_secret()    
   assert ('event' in diction), "Logs must always have an event type"
-  __url_async_post(full_path(constants.LOGGING.PATH), diction)
+  __url_async_post(constants.LOGGING.PATH, diction)
 
 def main():
   run_wsgi_app(application)

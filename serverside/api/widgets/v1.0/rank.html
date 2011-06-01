@@ -2,7 +2,11 @@
 <head>
 </head>
 <body>
-  <div style="background-color:{{backgroundColor}}; visibility: visible; border:{{borderThickness}}px {{borderStyle}} {{borderColor}}; height:{{height}}px; width:{{width}}px; overflow:auto; ">
+  <div style="background-color:{{backgroundColor}}; 
+{% if hasRoundedCorners %}
+border-radius: 10px 10px 10px 10px;
+{% endif %}
+visibility: visible; border:{{borderThickness}}px {{borderStyle}} {{borderColor}}; height:{{height}}px; width:{{width}}px; overflow:auto; ">
     {% if displayTitle %}
     <div style="background-color:{{titleBackgroundColor}}; font-family:{{titleFont}}; font-size:{{titleSize}}px; text-align:{{titleFloat}}; color:{{titleColor}}; padding:3px;">{{ title }}</div>
     {% endif %}

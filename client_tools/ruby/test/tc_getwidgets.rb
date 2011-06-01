@@ -28,6 +28,7 @@ class TestGetWidget < Test::Unit::TestCase
     ui = get_good_ui(sync)
 
     ["trophy_case", "milestones", "points", "rank", "notifier"].each { |item|
+      puts ui.get_widget(ID1, item)
       assert(ui.get_widget(ID1, item).to_s.include?(item))
     }
 

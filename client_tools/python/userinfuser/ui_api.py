@@ -47,7 +47,14 @@ def ui_threaded(callback=lambda *args, **kwargs: None, daemonic=True):
 
 
 class UserInfuser():
-  """ 
+  def __init__(self, 
+               account, # required 
+               api_key, # required
+               debug=False, 
+               local=False, 
+               encrypt=True,
+               sync_all=False):
+    """ 
       Constructor
       Required Arguments: 
                  account_email: The email you registered with
@@ -59,14 +66,7 @@ class UserInfuser():
                  sync_all: Make all calls synchronous (slows your 
                            application down, only use it for testing)
       Exception: Tosses a BadConfiguration if required arguments are None
-  """
-  def __init__(self, 
-               account, # required 
-               api_key, # required
-               debug=False, 
-               local=False, 
-               encrypt=True,
-               sync_all=False):
+    """
     self.ui_url =  ui_constants.UI_PATH
     if encrypt:
       self.ui_url = ui_constants.UI_SPATH
@@ -116,7 +116,9 @@ class UserInfuser():
                          ui_constants.CREATE_BADGE_PATH
     
     self.timeout = 10 # seconds
-  """
+
+  def get_user_data(self, user_id):
+    """
      Function: get_user_data
      Arguments: user_id
                 The user id is a unique identifier. It could be an email or 
@@ -136,8 +138,7 @@ class UserInfuser():
             "creation_date": "2011-02-26"} 
      Notes: This function is always synchronous. It will add latency into 
             your application/web site.
-  """
-  def get_user_data(self, user_id):
+    """
     argsdict = {"apikey":self.api_key,
                "userid":user_id,
                "accountid":self.account}
@@ -155,7 +156,9 @@ class UserInfuser():
     except:
       self.debug_log("Unable to parse return message")
     return ret
-  """
+  
+  def update_user(self, user_id, user_name="", link_to_profile="", link_to_profile_img=""):
+    """
      Function: update_user
      Description: To either add a new user, or update a user's information
      Required Arguments: user_id (unique user identifier)
@@ -165,8 +168,7 @@ class UserInfuser():
                 link_to_profile (a URL to the user's profile)
                 link_to_profile (a URL to a user's profile picture)
      Return value: True on success, False otherwise
-  """ 
-  def update_user(self, user_id, user_name="", link_to_profile="", link_to_profile_img=""):
+    """
     argsdict = {"apikey":self.api_key,
                "userid":user_id,
                "accountid":self.account,
@@ -187,7 +189,9 @@ class UserInfuser():
         raise ui_errors.ConnectionError()
     return self.__parse_return(ret)
 
-  """
+
+  def award_badge(self, user_id, badge_id, reason="", resource=""):
+    """
      Function: award_badge
      Description: Award a badge to a user
      Required Arguments: user_id (unique user identifier)
@@ -199,8 +203,7 @@ class UserInfuser():
                          resource (A URL that the user goes to if the badge 
                                  is clicked) 
      Return value: True on success, False otherwise
-  """ 
-  def award_badge(self, user_id, badge_id, reason="", resource=""):
+    """
     argsdict = {"apikey":self.api_key,
                "accountid":self.account,
                "userid":user_id,
@@ -221,7 +224,8 @@ class UserInfuser():
         raise ui_errors.ConnectionError()
     return self.__parse_return(ret)
 
-  """
+  def remove_badge(self, user_id, badge_id):
+    """
      Function: remove_badge
      Description: Remove a badge from a user
      Required Arguments: user_id (unique user identifier)
@@ -229,9 +233,8 @@ class UserInfuser():
                                    UserInfuser website under badges tab of 
                                    control panel)
      Return value: True on success, False otherwise
-  """ 
+    """ 
 
-  def remove_badge(self, user_id, badge_id):
     argsdict = {"apikey":self.api_key,
                "accountid":self.account,
                "userid":user_id,
@@ -250,15 +253,15 @@ class UserInfuser():
         raise ui_errors.ConnectionError()
     return self.__parse_return(ret)
 
-  """
+  def award_points(self, user_id, points_awarded, reason=""):
+    """
      Function: award_points
      Description: Award points to a user
      Required Arguments: user_id (unique user identifier)
                          points_awarded 
      Optional Arguments: reason (Why they got points)
      Return value: True on success, False otherwise
-  """ 
-  def award_points(self, user_id, points_awarded, reason=""):
+    """ 
     argsdict = {"apikey":self.api_key,
                "accountid":self.account,
                "userid":user_id,
@@ -277,7 +280,9 @@ class UserInfuser():
       if self.raise_exceptions:
         raise ui_errors.ConnectionError()
     return self.__parse_return(ret)
-  """
+
+  def award_badge_points(self, user_id, badge_id, points_awarded, points_required, reason="", resource=""):
+    """
      Function: award_badge_points
      Description: Award badge points to a user. Badges can also be achieved
                   after a certain number of points are given towards an 
@@ -293,8 +298,7 @@ class UserInfuser():
      Optional Arguments: reason (Why they got the badge points)
                          resource (URL link to assign to badge)
      Return value: True on success, False otherwise
-  """ 
-  def award_badge_points(self, user_id, badge_id, points_awarded, points_required, reason="", resource=""):
+    """
     argsdict = {"apikey":self.api_key,
                "accountid":self.account,
                "userid":user_id,
@@ -319,7 +323,9 @@ class UserInfuser():
 
     return self.__parse_return(ret)
 
-  """
+ 
+  def get_widget(self, user_id, widget_type, height=500, width=300):
+    """
      Function: get_widget
      Description: Retrieve the HTML 
      Required Arguments: user_id (unique user identifier)
@@ -331,14 +337,15 @@ class UserInfuser():
      Return value: String to place into your website. The string will render an 
                    iframe of a set size. Customize your widgets on the
                    UserInfuser website.
-  """ 
-  def get_widget(self, user_id, widget_type, height=500, width=300):
+    """
+    if not user_id:
+      user_id = ui_constants.ANONYMOUS
     if widget_type not in ui_constants.VALID_WIDGETS:
       raise ui_errors.UnknownWidget()
     userhash = hashlib.sha1(self.account + '---' + user_id).hexdigest()
     self.__prefetch_widget(widget_type, user_id)
     if widget_type != "notifier":
-      return "<iframe border='0' z-index:9999; frameborder='0' height='"+str(height)+"px' width='"+str(width)+"px' scrolling='no' src='" + self.widget_path + "?widget=" + widget_type + "&u=" + userhash + "&height=" +str(height) + "&width="+str(width)+"'>Sorry your browser does not support iframes!</iframe>"
+      return "<iframe border='0' z-index:9999; frameborder='0' height='"+str(height)+"px' width='"+str(width)+"px' allowtransparency='true' scrolling='no' src='" + self.widget_path + "?widget=" + widget_type + "&u=" + userhash + "&height=" +str(height) + "&width="+str(width)+"'>Sorry your browser does not support iframes!</iframe>"
     else:
       return "<div style='z-index:9999; overflow: hidden; position: fixed; bottom: 0px; right: 10px;'><iframe style='border:none;' allowtransparency='true' height='"+str(height)+"px' width='"+str(width)+"px' scrolling='no' src='" + self.widget_path + "?widget=" + widget_type + "&u=" + userhash + "&height=" +str(height) + "&width="+str(width)+"'>Sorry your browser does not support iframes!</iframe></div>"
 
@@ -407,8 +414,8 @@ class UserInfuser():
       return False
     return True
 
-  """ Prefetch the widget for the user """
   def __prefetch_widget(self, widget_type, user_id):
+    """ Prefetch the widget for the user """
     argsdict = {"apikey":self.api_key,
                "accountid":self.account,
                "userid":user_id,
@@ -418,9 +425,9 @@ class UserInfuser():
     except:
       pass
 
-  """ Hidden Menu APIs """
-  """ Badges should be created using the console """
   def create_badge(self, badge_name, badge_theme, description, link):
+    """ Hidden Menu APIs """
+    """ Badges should be created using the console """
     argsdict = {"apikey":self.api_key,
                "accountid":self.account,
                "name":badge_name,

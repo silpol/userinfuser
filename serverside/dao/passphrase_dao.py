@@ -42,6 +42,17 @@ def get_log_secret():
   else:
     return secret.secret
 
+def get_update_secret():
+  secret = memcache_db.get_entity(constants.UPDATE.SECRET_KEYNAME, "PassPhrase")
+  if not secret: 
+    phrase = gen_random(16)
+    ent = PassPhrase(key_name=constants.UPDATE.SECRET_KEYNAME, secret=phrase)
+    memcache_db.save_entity(ent, constants.UPDATE.SECRET_KEYNAME)
+    return phrase
+  else:
+    return secret.secret
+
+
 def get_encrypt_secret():
   secret = memcache_db.get_entity(constants.ENCRYPTION_KEYNAME, "PassPhrase")
   if not secret: 

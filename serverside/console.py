@@ -33,9 +33,15 @@ from serverside.dao import widgets_dao
 from serverside.dao import badges_dao
 from serverside.dao import accounts_dao
 from serverside import messages
+from serverside import environment
+from serverside.dao import users_dao
+from serverside import notifier
 
+import hashlib
 import logging
 import wsgiref.handlers
+import simplejson
+json = simplejson
 
 class Console(webapp.RequestHandler):
   @account_login_required
@@ -94,13 +100,15 @@ class ConsoleEditUser(webapp.RequestHandler):
     trophy_case_widget_url = "/api/1/getwidget?widget=trophy_case&u=" + userhash
     points_widget_url = "/api/1/getwidget?widget=points&u=" + userhash
     rank_widget_url = "/api/1/getwidget?widget=rank&u=" + userhash 
+    milestones_widget_url = "/api/1/getwidget?widget=milestones&u=" + userhash 
     
     template_values = {'users_edit' : True,
                        'account_name' : current_session.get_email(),
                        'editusername': edit_user,
                        'view_trophy_case':trophy_case_widget_url,
                        'view_points':points_widget_url,
-                       'view_rank':rank_widget_url}
+                       'view_rank':rank_widget_url,
+                       'view_milestones':milestones_widget_url}
     self.response.out.write(template.render(constants.TEMPLATE_PATHS.CONSOLE_DASHBOARD, template_values))
 
 class ConsoleUsersFetch(webapp.RequestHandler):
@@ -152,19 +160,30 @@ class ConsoleFeatures(webapp.RequestHandler):
   @account_login_required
   def get(self):
     current_session = Session().get_current_session(self)
+    account = current_session.get_account_entity()
     email = current_session.get_email()
     
     """ Get widgets values """
-    trophy_case_values = widgets_dao.get_trophy_case_properties_to_render(email)
-    rank_values = widgets_dao.get_rank_properties_to_render(email)
-    points_values = widgets_dao.get_points_properties_to_render(email)
-    leaderboard_values = widgets_dao.get_leaderboard_properties_to_render(email)
-    notifier_values = widgets_dao.get_notifier_properties_to_render(email)
+    trophy_case_values = widgets_dao.get_trophy_case_properties_to_render(account)
+    rank_values = widgets_dao.get_rank_properties_to_render(account)
+    points_values = widgets_dao.get_points_properties_to_render(account)
+    leaderboard_values = widgets_dao.get_leaderboard_properties_to_render(account)
+    notifier_values = widgets_dao.get_notifier_properties_to_render(account)
+    milestones_values = widgets_dao.get_milestones_properties_to_render(account)
     
     """ Preview urls """
     trophy_case_preview_url = ""
     rank_preview_url = ""
     points_preview_url = ""
+    
+    """ Notifier """
+    if environment.is_dev():
+      widget_path = constants.CONSOLE_GET_WIDGET_DEV
+    else:
+      widget_path = constants.CONSOLE_GET_WIDGET_PROD 
+    widget_type = "notifier"
+    userhash = hashlib.sha1(email + '---' + constants.ANONYMOUS_USER).hexdigest()
+    notifier_str = "<div style='z-index:9999; overflow: hidden; position: fixed; bottom: 0px; right: 10px;'><iframe style='border:none;' allowtransparency='true' height='"+str(constants.NOTIFIER_SIZE_DEFAULT)+"px' width='"+str(constants.NOTIFIER_SIZE_DEFAULT)+"px' scrolling='no' src='" + widget_path + "?widget=" + widget_type + "&u=" + userhash + "&height=" +str(constants.NOTIFIER_SIZE_DEFAULT) + "&width="+str(constants.NOTIFIER_SIZE_DEFAULT)+"'>Sorry your browser does not support iframes!</iframe></div>"
     
     template_values = {'features_main' : True,
                        'account_name' : current_session.get_email(),
@@ -172,10 +191,12 @@ class ConsoleFeatures(webapp.RequestHandler):
                        'rank_values':rank_values,
                        'points_values':points_values,
                        'notifier_values': notifier_values,
+                       'milestones_values': milestones_values,
                        'leaderboard_values':leaderboard_values,
                        'trophy_case_preview_url':trophy_case_preview_url,
                        'rank_preview_url':rank_preview_url,
-                       'points_preview_url':points_preview_url}
+                       'points_preview_url':points_preview_url,
+                       'notifier': notifier_str}
     self.response.out.write(template.render(constants.TEMPLATE_PATHS.CONSOLE_DASHBOARD, template_values))  
 
 class ConsoleFeaturesUpdate(webapp.RequestHandler):
@@ -215,7 +236,10 @@ class ConsoleFeaturesPreview(webapp.RequestHandler):
       render_path = constants.TEMPLATE_PATHS.RENDER_LEADERBOARD
     elif widget == "notifier":
       widget_ref = account.notifierWidget
-      render_path = constants.TEMPLATE_PATHS.RENDER_NOTIFIER  
+      render_path = constants.TEMPLATE_PATHS.RENDER_NOTIFIER
+    elif widget == "milestones":
+      widget_ref = account.milestoneWidget
+      render_path = constants.TEMPLATE_PATHS.RENDER_MILESTONES  
       
     values = {"status":"success"}
     properties = widget_ref.properties()
@@ -227,6 +251,10 @@ class ConsoleFeaturesPreview(webapp.RequestHandler):
 class ConsoleFeaturesGetValue(webapp.RequestHandler):
   @account_login_required
   def get(self):
+    """ Sleep here... on PROD we hare having race condition, try this out... """
+    import time
+    time.sleep(0.3)
+    
     """ Look up value of "of" """
     current_session = Session().get_current_session(self)
     requested_value = self.request.get("of")
@@ -300,12 +328,12 @@ class ConsoleForgottenPassword(webapp.RequestHandler):
     email = self.request.get("email")
     new_password = accounts_dao.reset_password(email)
     
+    logging.info("Trying reset email to: " + str(email) + " temp password: " + str(new_password))
     success = False
-    logging.info("Reset email to: " + email + " temp password: " + new_password)
     if new_password:
       """ send an email with new password """
       try:
-        mail.send_mail(sender="UserInfuser <raj@cloudcaptive.com>",
+        mail.send_mail(sender="UserInfuser <" + constants.APP_OWNER_EMAIL + ">",
                          to=email,
                          subject="UserInfuser Password Reset",
                          body= messages.get_forgotten_login_email(new_password))
@@ -313,7 +341,9 @@ class ConsoleForgottenPassword(webapp.RequestHandler):
       except:
         logging.error("FAILED to send password reset email to: " + email)
         pass
-    
+    else:
+      logging.error("Error for reset email to: " + str(email) + " temp password: " + str(new_password))
+       
     values = {"success" : success,
               "response" : True}
     self.response.out.write(template.render(constants.TEMPLATE_PATHS.CONSOLE_FORGOTTEN_PASSWORD, values))
@@ -322,12 +352,62 @@ class ConsoleSignUp(webapp.RequestHandler):
   def get(self):
     self.response.out.write(template.render(constants.TEMPLATE_PATHS.CONSOLE_SIGN_UP, None))
     
+class ConsoleNotifierPreview(webapp.RequestHandler):
+  @account_login_required
+  def get(self):
+    current_session = Session().get_current_session(self)
+    account_entity = current_session.get_account_entity()
+    email = account_entity.email
     
-      
+    """ notify anonymous account """
+    
+    userhash = hashlib.sha1(email + '---' + constants.ANONYMOUS_USER).hexdigest()
+    user_ref = users_dao.get_user_with_key(userhash)
+    
+    notifier.user_badge_award(user_ref, "This is a note", "/images/badges/test2.jpg", "Title", account_entity, "anonymous_badge")
+    self.response.out.write("done")
+
+class ConsoleNewNotifierToken(webapp.RequestHandler):
+  @account_login_required
+  def get(self):
+    current_session = Session().get_current_session(self)
+    account_entity = current_session.get_account_entity()
+    email = account_entity.email
+    
+    """ Notifier """
+    if environment.is_dev():
+      widget_path = constants.CONSOLE_GET_WIDGET_DEV
+    else:
+      widget_path = constants.CONSOLE_GET_WIDGET_PROD 
+    widget_type = "notifier"
+    userhash = hashlib.sha1(email + '---' + constants.ANONYMOUS_USER).hexdigest()
+    notifier_str = "<div style='z-index:9999; overflow: hidden; position: fixed; bottom: 0px; right: 10px;'><iframe style='border:none;' allowtransparency='true' height='"+str(constants.NOTIFIER_SIZE_DEFAULT)+"px' width='"+str(constants.NOTIFIER_SIZE_DEFAULT)+"px' scrolling='no' src='" + widget_path + "?widget=" + widget_type + "&u=" + userhash + "&height=" +str(Falseconstants.NOTIFIER_SIZE_DEFAULT) + "&width="+str(constants.NOTIFIER_SIZE_DEFAULT)+"'>Sorry your browser does not support iframes!</iframe></div>"
+    self.response.out.write(notifier_str)
+
 class ReturnUserCount(webapp.RequestHandler):
   def get(self):
     # TODO
     self.response.out.write("800")
+
+class DeleteUser(webapp.RequestHandler):
+  @account_login_required
+  def post(self):
+    current_session = Session().get_current_session(self)
+    account_entity = current_session.get_account_entity()
+    email = account_entity.email
+    user = self.request.get("id")
+    if user == constants.ANONYMOUS_USER:
+      json_ret = {"success":False,
+                  "reason":"Sorry, you cannot delete this special user."}
+      json_ret = json.dumps(json_ret)
+      self.response.out.write(json_ret)
+      return 
+    json_ret = {'success':True,
+                'reason':'Success. User has been deleted'}
+    json_ret = json.dumps(json_ret)
+    user_hash = hashlib.sha1(email + '---' + user).hexdigest()
+    users_dao.delete_user(user_hash)
+    self.response.out.write(json_ret)
 
 application = webapp.WSGIApplication([
   ('/adminconsole', Console),
@@ -335,6 +415,7 @@ application = webapp.WSGIApplication([
   ('/adminconsole/users/edit', ConsoleEditUser),
   ('/adminconsole/users/count', ReturnUserCount),
   ('/adminconsole/users/fetch', ConsoleUsersFetch),
+  ('/adminconsole/users/delete', DeleteUser),
   ('/adminconsole/downloads', ConsoleDownloads),
   ('/adminconsole/features', ConsoleFeatures),
   ('/adminconsole/features/update', ConsoleFeaturesUpdate),
@@ -344,7 +425,9 @@ application = webapp.WSGIApplication([
   ('/adminconsole/preferences', ConsolePreferences),
   ('/adminconsole/forgot', ConsoleForgottenPassword),
   ('/adminconsole/signup', ConsoleSignUp),
-  ('/adminconsole/analytics', ConsoleAnalytics)
+  ('/adminconsole/analytics', ConsoleAnalytics),
+  ('/adminconsole/notify', ConsoleNotifierPreview),
+  ('/adminconsole/newnotifytoken', ConsoleNewNotifierToken)
 ], debug=constants.DEBUG)
 
 

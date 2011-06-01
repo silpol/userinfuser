@@ -26,15 +26,18 @@ from serverside.entities.badges import *
 from serverside.entities.pending_create import *
 from serverside.entities.users import *
 from serverside.entities.widgets import *
+from serverside.dao import accounts_dao
 from serverside.session import Session
 from serverside.tools.utils import account_login_required
+from serverside import logs 
+from serverside.entities.logs import Logs
 from serverside.testing.dummydata import *
 import cgi
 import logging
 import os
 import time
 import wsgiref.handlers
-
+import random
 class TestDB(webapp.RequestHandler):
   def get(self):
    self.response.out.write("Test 1:" +self.test1() +"<br>")
@@ -460,7 +463,41 @@ class TestViewLoggedOut(webapp.RequestHandler):
       self.response.out.write("<br/>You are logged in as:")
       email = sess.get_email()
       self.response.out.write("<br/>" + email)
-  
+
+class TestLogs(webapp.RequestHandler):
+  def get(self):
+    log1 = {"account":"test@test.test",
+            'event':'getuserdata',
+            'api': 'get_user_data',
+            'is_api':'yes',
+            'user':"test_user",
+            'success':'true',
+            'ip':'127.0.0.1'}
+
+    log1["details"] = u"HELLO 0"
+    logs.create(log1)    
+    log1["is_api"] = 'no'
+    log1["details"] = u"HELLO 1"
+    logs.create(log1)
+    log1["is_api"] = 'yes'
+    log1["details"] = u"HELLO 2"
+    log1["points"] = 100
+    logs.create(log1)
+    log1["details"] = u"A BUNCH OF accent e's \xe9\xe9\xe9"
+    logs.create(log1)
+
+class TestLogsCheck(webapp.RequestHandler):
+  def get(self):
+    q = Logs.all()
+    q.filter("account = ", "test@test.test") 
+    ents = q.fetch(10)
+    count = 0
+    for ii in ents:
+      count += 1
+      self.response.out.write(ii.details)
+      self.response.out.write("<br/>")
+    self.response.out.write("Number fetched " + str(count))
+
 class TestAccount(webapp.RequestHandler):
   def get(self):
     pass
@@ -473,8 +510,109 @@ class TestUsers(webapp.RequestHandler):
   def get(self):
     pass
 
+class CreateDummyAPIAnalytics(webapp.RequestHandler):
+  def fill_with_api_logs(self, acc):
+    today = datetime.datetime.now() 
+    rand = random.randint(1, 100)
+    batch = APICountBatch(date=today, account_key=acc.key().name(), counter=rand)
+    batch.put()
+    for ii in range(0, 10):
+      rand = random.randint(1, 100) + 10*ii
+      delta = datetime.timedelta(days=ii) 
+      cur_date =  today - delta
+      batch = APICountBatch(date=cur_date, account_key=acc.key().name(), counter=rand)
+      batch.put()
+      
+  def get(self):
+    created_logs = ""
+    for ii in constants.TEST_ACCOUNTS:
+      acc = accounts_dao.get(ii)
+      if acc:
+        self.fill_with_api_logs(acc) 
+        created_logs = acc.key().name()
+    if created_logs:
+      self.response.out.write("Created logs for test account " + created_logs)
+    else:
+      self.response.out.write("Did not create any logs, create a test account first")
+      
+
+class CreateDummyBadgePointsAnalytics(webapp.RequestHandler):
+  def fill_with_api_logs(self, acc):
+    today = datetime.datetime.now() 
+    rand = random.randint(1, 100)
+    batch = BadgePointsBatch(date=today, badgeid="badge1", account_key=acc.key().name(), counter=rand)
+    batch.put()
+    for ii in range(0, 10):
+      rand = random.randint(1, 100) + 10*ii
+      delta = datetime.timedelta(days=ii) 
+      cur_date =  today - delta
+      batch = BadgePointsBatch(date=cur_date, badgeid="badge1", account_key=acc.key().name(), counter=rand)
+      batch.put()
+
+    today = datetime.datetime.now() 
+    rand = random.randint(1, 100)
+    batch = BadgePointsBatch(date=today, badgeid="badge2", account_key=acc.key().name(), counter=rand)
+    batch.put()
+    for ii in range(0, 10):
+      rand = random.randint(1, 100) + 10*ii
+      delta = datetime.timedelta(days=ii) 
+      cur_date =  today - delta
+      batch = BadgePointsBatch(date=cur_date, badgeid="badge2", account_key=acc.key().name(), counter=rand)
+      batch.put()
+       
+  def get(self):
+    created_logs = ""
+    for ii in constants.TEST_ACCOUNTS:
+      acc = accounts_dao.get(ii)
+      if acc:
+        self.fill_with_api_logs(acc) 
+        created_logs = acc.key().name()
+    if created_logs:
+      self.response.out.write("Created logs for test account " + created_logs)
+    else:
+      self.response.out.write("Did not create any logs, create a test account first")
+
+class CreateDummyBadgeAnalytics(webapp.RequestHandler):
+  def fill_with_api_logs(self, acc):
+    today = datetime.datetime.now() 
+    rand = random.randint(1, 100)
+    batch = BadgeBatch(date=today, badgeid="badge1", account_key=acc.key().name(), counter=rand)
+    batch.put()
+    for ii in range(0, 10):
+      rand = random.randint(1, 100) + 10*ii
+      delta = datetime.timedelta(days=ii) 
+      cur_date =  today - delta
+      batch = BadgeBatch(date=cur_date, badgeid="badge1", account_key=acc.key().name(), counter=rand)
+      batch.put()
+
+    today = datetime.datetime.now() 
+    rand = random.randint(1, 100)
+    batch = BadgeBatch(date=today, badgeid="badge2", account_key=acc.key().name(), counter=rand)
+    batch.put()
+    for ii in range(0, 10):
+      rand = random.randint(1, 100) + 10*ii
+      delta = datetime.timedelta(days=ii) 
+      cur_date =  today - delta
+      batch = BadgeBatch(date=cur_date, badgeid="badge2", account_key=acc.key().name(), counter=rand)
+      batch.put()
+       
+  def get(self):
+    created_logs = ""
+    for ii in constants.TEST_ACCOUNTS:
+      acc = accounts_dao.get(ii)
+      if acc:
+        self.fill_with_api_logs(acc) 
+        created_logs = acc.key().name()
+    if created_logs:
+      self.response.out.write("Created logs for test account " + created_logs)
+    else:
+      self.response.out.write("Did not create any logs, create a test account first")
+
+
 application = webapp.WSGIApplication([
   ('/test/db', TestDB),
+  ('/test/logscreate', TestLogs),
+  ('/test/logscheck', TestLogsCheck),
   ('/test/accounts', TestAccount),
   ('/test/badges', TestBadges),
   ('/test/users', TestUsers),
@@ -485,6 +623,9 @@ application = webapp.WSGIApplication([
   ('/test/terminatesession', TestTerminateSession),
   ('/test/viewloggedout', TestViewLoggedOut),
   ('/test/createdummyaccountsandusers', CreateDummyAccountsAndUsers),
+  ('/test/createdummyapianalytics', CreateDummyAPIAnalytics),
+  ('/test/createdummybadgepointsanalytics', CreateDummyBadgePointsAnalytics),
+  ('/test/createdummybadgeanalytics', CreateDummyBadgeAnalytics),
   ('/test/createbatches', CreateDummyBatchData),
   ('/test/pendingcreates', TestPendingCreates)
 ], debug=True)

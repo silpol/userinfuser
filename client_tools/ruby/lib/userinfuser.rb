@@ -16,6 +16,7 @@ Copyright (C) 2011 CloudCaptive
 =end
 
 # Programmer: Chris Bunch
+#             Navraj Chohan
 
 require 'rubygems'
 require 'json'
@@ -46,6 +47,7 @@ class UserInfuser
   WIDGET_PATH = "getwidget"
   CREATE_BADGE_PATH= "createbadge"
   RAISE_EXCEPTIONS = false
+  UI_ANONYMOUS = "__ui__anonymous__"
 
   def initialize(account, api_key, debug=false, local=false, encrypt=true, sync_all=false)
     @ui_url = UI_PATH
@@ -232,13 +234,16 @@ class UserInfuser
 
   def get_widget(user_id, widget_type, height=500, width=300)
     raise UserInfuserUnknownWidget unless VALID_WIDGETS.include?(widget_type)
+    
+    user_id = UI_ANONYMOUS if user_id.nil?
+    user_id = UI_ANONYMOUS if user_id.empty?
+     
     userhash = Digest::SHA1.hexdigest(@account + '---' + user_id)
     prefetch_widget(widget_type, user_id)
-
     if widget_type == "notifier"
       return "<div style='z-index:9999; overflow: hidden; position: fixed; bottom: 0px; right: 10px;'><iframe style='border:none;' allowtransparency='true' height='#{height}px' width='#{width}px' scrolling='no' src='#{@widget_path}?widget=#{widget_type}&u=#{userhash}&height=#{height}&width=#{width}'>Sorry your browser does not support iframes!</iframe></div>"
     else
-      return "<iframe border='0' z-index:9999; frameborder='0' height='#{height}px' width='#{width}px' scrolling='no' src='#{@widget_path}?widget=#{widget_type}&u=#{userhash}&height=#{height}&width=#{width}'>Sorry your browser does not support iframes!</iframe>"
+      return "<iframe border='0' z-index:9999; frameborder='0' height='#{height}px' width='#{width}px' allowtransparency='true' scrolling='no' src='#{@widget_path}?widget=#{widget_type}&u=#{userhash}&height=#{height}&width=#{width}'>Sorry your browser does not support iframes!</iframe>"
     end
   end
 

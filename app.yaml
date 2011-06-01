@@ -35,7 +35,8 @@ handlers:
 # NonSecure static HTML/image/style content
 - url: /
   script: serverside/main.py
-  
+  secure: always 
+
 - url: /console/
   static_dir: static/console
 
@@ -94,6 +95,10 @@ handlers:
 
 - url: /(logevents)
   script: /serverside/logs.py
+  secure: optional
+
+- url: /(updateaccount)
+  script: /serverside/update_account.py
   secure: optional
 
 # Not found 

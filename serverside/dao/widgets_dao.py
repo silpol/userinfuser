@@ -25,6 +25,7 @@ from serverside.entities.widgets import Rank
 from serverside.entities.widgets import Points
 from serverside.entities.widgets import Notifier
 from serverside.entities.widgets import Leaderboard
+from serverside.entities.widgets import Milestones
 from serverside.entities import memcache_db
 from serverside.dao import accounts_dao
 from serverside.tools import utils
@@ -120,9 +121,62 @@ def get_points_properties_to_render(email):
 def get_notifier_properties_to_render(email):
   return get_values("Notifier", email, Notifier.properties())
 
+def get_milestones_properties_to_render(email):
+  return get_values("Milestones", email, Milestones.properties())
+
 def get_leaderboard_properties_to_render(email):
   return get_values("Leaderboard", email, Leaderboard.properties())
-  
+
+def create_widget_for_account_by_email(widget_name, email):
+  """
+  Creates a new widget for the account, will return widget object if success, else it will return None
+  """
+  new_widget = None
+  property_name = None
+  if widget_name == "TrophyCase":
+    new_widget = TrophyCase(key_name=email)
+    property_name = "trophyWidget"
+  elif widget_name == "Rank":
+    new_widget = Rank(key_name=email)
+    property_name = "rankWidget"
+  elif widget_name == "Points":
+    new_widget = Points(key_name=email)
+    property_name = "pointsWidget"
+  elif widget_name == "Notifier":
+    new_widget = Notifier(key_name=email)
+    property_name = "notifierWidget"
+  elif widget_name == "Milestones":
+    new_widget = Milestones(key_name=email)
+    property_name = "milestoneWidget"
+  elif widget_name == "Leaderboard":
+    new_widget = Leaderboard(key_name=email)
+    property_name = "leaderWidget"
+    
+  if new_widget!= None:
+    memcache_db.save_entity(new_widget, email)
+    update_fields = { property_name : new_widget }
+    memcache_db.update_fields(email, "Accounts", update_fields)
+  else:
+    logging.info("Unable to create widget because widget type unknown: " + widget_name)
+    
+  return new_widget
+
+def get_widget_for_account(account, widget_name):
+  ret_widget = None
+  if widget_name == "TrophyCase":
+    ret_widget = account.trophyWidget
+  elif widget_name == "Rank":
+    ret_widget = account.rankWidget
+  elif widget_name == "Points":
+    ret_widget = account.pointsWidget
+  elif widget_name == "Notifier":
+    ret_widget = account.notifierWidget
+  elif widget_name == "Milestones":
+    ret_widget = account.milestoneWidget
+  elif widget_name == "Leaderboard":
+    ret_widget = account.leaderWidget
+  return ret_widget
+      
 def get_values(widget_entity_name, account, properties):
   """
   Utility method to generate editable values dynamically.
@@ -130,7 +184,15 @@ def get_values(widget_entity_name, account, properties):
   downs and color pickers we need to have a static mapping
   for all fields.
   """
-  widget_entity = memcache_db.get_entity(account, widget_entity_name)
+  
+  widget_entity = get_widget_for_account(account, widget_entity_name)
+  email = account.email
+  
+  if widget_entity == None:
+    """ create the required widget here """
+    widget_entity = create_widget_for_account_by_email(widget_entity_name, email)
+    if(widget_entity != None):
+      logging.info("Created widget " + widget_entity_name + " dynamically for account: " + email + " because one did not already exist.")
   
   if widget_entity != None:
     widget_values=[]
@@ -168,7 +230,7 @@ def delete_widget(widget_key, wtype):
   return memcache_db.delete_entity_with_key(widget_key, wtype)
 
 def add_notifier(acc_ref):
-  logging.error("Had to add a widget to an account")
+  logging.error("Had to add a widget to an account " + str(acc_ref.key().name()))
   new_notifier = Notifier(key_name=acc_ref.key().name())
   memcache_db.save_entity(new_notifier, acc_ref.key().name())
   acc_ref.notifierWidget = new_notifier
@@ -176,7 +238,7 @@ def add_notifier(acc_ref):
   return new_notifier
 
 def add_rank(acc_ref):
-  logging.error("Had to add a widget to an account")
+  logging.error("Had to add a widget to an account " + str(acc_ref.key().name()))
   new_rank= Rank(key_name=acc_ref.key().name())
   memcache_db.save_entity(new_rank, acc_ref.key().name())
   acc_ref.rankWidget = new_rank
@@ -184,7 +246,7 @@ def add_rank(acc_ref):
   return new_rank
 
 def add_points(acc_ref):
-  logging.error("Had to add a widget to an account")
+  logging.error("Had to add a widget to an account " + str(acc_ref.key().name()))
   new_points= Points(key_name=acc_ref.key().name())
   memcache_db.save_entity(new_points, acc_ref.key().name())
   acc_ref.pointsWidget = new_points
@@ -192,7 +254,7 @@ def add_points(acc_ref):
   return new_points
 
 def add_trophy_case(acc_ref):
-  logging.error("Had to add a widget to an account")
+  logging.error("Had to add a widget to an account " + str(acc_ref.key().name()))
   new_trophy_case= TrophyCase(key_name=acc_ref.key().name())
   memcache_db.save_entity(new_trophy_case, acc_ref.key().name())
   acc_ref.trophyWidget = new_trophy_case
@@ -200,11 +262,19 @@ def add_trophy_case(acc_ref):
   return new_trophy_case
 
 def add_leader(acc_ref):
-  logging.error("Had to add a widget to an account")
+  logging.error("Had to add a widget to an account " + str(acc_ref.key().name()))
   new_leader= Leaderboard(key_name=acc_ref.key().name())
   memcache_db.save_entity(new_leader, acc_ref.key().name())
   acc_ref.leaderWidget = new_leader
   accounts_dao.save(acc_ref)
   return new_leader
 
-  
+def add_milestones(acc_ref):
+  logging.error("Had to add a widget to an account " + str(acc_ref.key().name()))
+  new_milestones = Milestones(key_name=acc_ref.key().name())
+  memcache_db.save_entity(new_milestones, acc_ref.key().name())
+  acc_ref.milestonesWidget = new_milestones
+  accounts_dao.save(acc_ref)
+  return new_milestones
+
+ 
