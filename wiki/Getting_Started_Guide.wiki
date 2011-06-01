@@ -6,7 +6,7 @@ This wiki page describes step-by-step on how to put UserInfuser into your websit
 
 = Create an Account =
   * Sign up for an account
-    * userinfuser.com or
+    * http://userinfuser.com or
     * http://your-own-deployment.appspot.com
 
 [http://i.imgur.com/iyUY3.png]
