@@ -197,7 +197,9 @@ public boolean awardBadgePoints(final String userId, final int pointsAwarded)
 public String getWidget(final String userId, final WidgetType widgetType, final int height, final int width)
 }}}
 == Ruby ==
-The Ruby UserInfuser gem exposes the following API:
+The Ruby UserInfuser gem can be installed as follows:
+{{{gem install userinfuser}}}
+and exposes the following API:
 
 {{{
 class UserInfuser
