@@ -49,6 +49,7 @@ The get_widget function returns iframes which you embed into your website. Curre
   * points
   * rank
   * notifier
+  * milestones
 
 To get a widget:
 {{{
