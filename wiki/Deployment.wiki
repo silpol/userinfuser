@@ -31,4 +31,5 @@ This option is for those who want to host it on their own hardware (Xen, KVM, ph
   * The code must be modified to find and replace where you see appspot.com to the machine you are running it on
   * Deploy the application
      * appscale-upload-app --file userinfuser
+     * or use the upload webpage
   * Change the client side api url to where !AppScale is hosting it
