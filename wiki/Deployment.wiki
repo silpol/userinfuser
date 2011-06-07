@@ -28,7 +28,7 @@ Download the application from [http://userinfuser.googlecode.com/files/userinfus
 This option is for those who want to host it on their own hardware (Xen, KVM, physical hardware, Eucalyptus) or on a public cloud like Amazon's EC2.
   * Setup and run !AppScale: http://code.google.com/p/appscale
     * Version 1.5 or greater
-  * The code must be modified to find and replace where you see appspot.com to the machine you are running it on (<ip>:<port>)
+  * The code must be modified to find and replace where you see appspot.com to the machine you are running it on (ip:port)
   * Deploy the application
      * appscale-upload-app --file userinfuser
      * or use the upload webpage
