@@ -37,7 +37,7 @@ This option is for those who want to host it on their own hardware (Xen, KVM, ph
 = Steps for Dev Server =
 To run the development server do the following:
   * Modify constants.py by adding your email to the test accounts (TEST_ACCOUNTS)
-  * Download and unpackage the google SDK.
+  * Download and unpackage the google Python SDK [http://code.google.com/appengine/downloads.html here]
   * Go into the top level directory
   * Run: "python2.5 dev_appserver.py /path/to/userinfuser/
   * Point your browser to http://localhost:8080
