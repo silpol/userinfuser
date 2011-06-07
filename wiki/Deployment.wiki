@@ -33,3 +33,12 @@ This option is for those who want to host it on their own hardware (Xen, KVM, ph
      * appscale-upload-app --file userinfuser
      * or use the upload webpage
   * Change the client side api url to where !AppScale is hosting it
+
+= Steps for Dev Server =
+To run the development server do the following:
+  * Modify constants.py by adding your email to the test accounts (TEST_ACCOUNTS)
+  * Download and unpackage the google SDK.
+  * Go into the top level directory
+  * Run: "python2.5 dev_appserver.py <path-to-userinfuse>
+  * Point your browser to http://localhost:8080
+  * Sign up twice with your test account (it will tell you your test account as been activated)
