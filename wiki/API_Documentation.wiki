@@ -269,7 +269,7 @@ def update_user(self, user_id, user_name="", link_to_profile="", link_to_profile
     return self.__parse_return(ret)
 }}}
 
-This is the python client code for making updates for users. The arguments are directly put into a post request in a straight forward manner. Asynchronous updates are required to make sure there is no additional latency. The implementation of __url_async_post spawns a thread and ignores the returned values. If the request was synchronous, the returned values is in json, and reports if the call was successful or not. Other calls for awarding points or badges use the same method for remote procedure calls.
+This is the python client code for making updates for users. The arguments are directly put into a post request in a straight forward manner. Asynchronous updates are required to make sure there is no additional latency. The implementation of __url_async_post spawns a thread and ignores the returned values. If the request was synchronous, the returned value is in json, and reports if the call was successful or not. Other calls for awarding points or badges use the same method for remote procedure calls.
 
 ==Rendering Widgets==
 For getting the widgets here is the python client code:
