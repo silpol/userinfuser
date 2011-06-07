@@ -17,7 +17,7 @@ Download the application from [http://userinfuser.googlecode.com/files/userinfus
   * Enable billing (blobstore requires it)
   * Download the SDK
   * Change the name of the application name in the code in userinfuser/serverside/constants.py and userinfuser/app.yaml
-  * There are some sender emails which need to be changed to the owner of the app
+  * There are some sender emails in signup.py that should be changed to the owner of the app's email (currently raj at cloudcaptive.com). Grep/search for the email in the code and change it to your own.
   * Upload your application to google's infrastructure
      * python appcfg.py update userinfuser
   * Change the client side api name to your app identifier
