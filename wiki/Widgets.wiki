@@ -38,3 +38,5 @@ The notifier shows up in the bottom-right corner of the webpage. This is a scree
 [http://i.imgur.com/hPxrP.png]
 ==Rank==
 [http://i.imgur.com/eL3TS.png]
+==Others==
+Submit and vote on other widgets on the main project page.
