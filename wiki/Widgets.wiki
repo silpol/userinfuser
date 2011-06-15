@@ -3,7 +3,7 @@
 
 = Introduction =
 
-This document talks about the different widgets available in UserInfuser. The widgets are highly customizable, enabling you to make them blend in with the look and feel of your website.
+This document talks about the different widgets available in UserInfuser. The widgets are highly customizable, enabling you to make them blend in with the look and feel of your website. Moreover, because it is open source, you can edit the widget's HTML and CSS directly for custom deployments. 
 
 = Widgets =
   * Leaderboard
