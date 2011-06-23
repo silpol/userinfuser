@@ -1,5 +1,8 @@
 #summary Client side documentation
 #labels PHP,REST,Python,Java,Featured,Ruby
+===Table of Contents===
+<wiki:toc max_depth="2" />
+----
 = Introduction =
 The client side library plugs into your server side application. The following API allows for you to register users, award points, award badges, and get widgets to render on your website.
 
@@ -286,4 +289,21 @@ def get_widget(self, user_id, widget_type, height=500, width=300):
 }}}
 
 Here we see the call returns a string which can be embedded into your website. If the widget is the notifier, it returns a special div wrapped around the iframe to set the zindex and positioning. There is a call to prefetch the widget which is a call to the service to make sure the widget is ready to serve in memcache when the user asks for the widget.
+=Trobleshooting=
+Each client library has a debug mode and also synchronous option. If for some reason you are not seeing your desired result, it is recommended you enabled both debug output and synchronous calls. By default both of these are turned off for production service.
+{{{
+from userinfuser.ui_api import UserInfuser
+
+ui = UserInfuser("raj@cloudcaptive.com", "MY-API-KEY-HERE", sync_all=True, debug=True)
+ui.update_user("testuser", "Test User")
+
+}}}
+and running it we see:
+{{{
+raj$ python test.py
+debug is on, account: raj@cloudcaptive.com, apikey: MY-API-KEY-HERE
+urllib output {"status": "success"}
+Received: {"status": "success"}
+}}}
+The logging into the UI control panel I can see that this user was successfully added or an output error if it was not (something like permission denied because of a bad API key).
  
