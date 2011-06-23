@@ -305,5 +305,5 @@ debug is on, account: raj@cloudcaptive.com, apikey: MY-API-KEY-HERE
 urllib output {"status": "success"}
 Received: {"status": "success"}
 }}}
-The logging into the UI control panel I can see that this user was successfully added or an output error if it was not (something like permission denied because of a bad API key).
+Logging into the UI control panel I can see that this user was successfully added. Otherwise an output error would have been reported in the returned result if it was not (something like permission denied because of a bad API key).
  
