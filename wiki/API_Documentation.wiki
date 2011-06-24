@@ -168,7 +168,8 @@ $ui = new UserInfuser("test@userinfuser.com", "123-456-789");
 $ui->award_badge($current_user_email, "theme-badgename-private");
 $ui->award_points($current_user_email, 10);
 
-//Show widgets with 100x100 size $points_widget = $ui->get_widget($current_user_email, "points", 100, 100);
+//Show widgets with 100x100 size 
+$points_widget = $ui->get_widget($current_user_email, "points", 100, 100);
 print($points_widget);
 
 $rank_widget = $ui->get_widget($current_user_email, "rank", 100, 100);
