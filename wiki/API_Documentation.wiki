@@ -205,7 +205,9 @@ The Ruby UserInfuser gem can be installed as follows:
 
 {{{gem install userinfuser}}}
 
-and exposes the following API:
+See [http://rubydoc.info/gems/userinfuser/0.9.0/UserInfuser] for the  documentation.
+
+It exposes the following API:
 
 {{{
 class UserInfuser
