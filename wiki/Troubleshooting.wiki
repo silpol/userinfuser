@@ -18,3 +18,6 @@ Common Mistakes:
  * Use the the badge id for API usage, not just the name
  * Badge ids look like: theme-name-private
  * Not giving the correct API key or account email address
+
+Conerns
+ * The rank widget does not update right away as points are awarded. It is cached and only recalculated after 10 minutes have passed. 
