@@ -7,7 +7,7 @@ This wiki page describes how to run your own gamification platform using !UserIn
 
 = Download The Application =
 
-Download the application from [http://userinfuser.googlecode.com/files/userinfuser-0.9.2.tar.gz here]. Do not use the SVN repository.
+Download the application from [http://userinfuser.googlecode.com/files/userinfuser-0.9.2.tar.gz here]. Or get the latest code from [github https://github.com/nlake44/UserInfuser]
 
 [http://code.google.com/appengine/images/appengine_lowres.png]
 = Steps For Google App Engine =
