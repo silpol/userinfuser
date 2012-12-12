@@ -26,13 +26,16 @@ Download the application from [http://userinfuser.googlecode.com/files/userinfus
 [http://posterous.com/getfile/files.posterous.com/wslinks/IJ1mr2yGdPRyPFvBBN81pdfn97XgGcK6OBtUmvnXkIhKWBBxw0I3R7RDEFAl/image001.png] 
 = Steps for !AppScale =
 This option is for those who want to host it on their own hardware (Xen, KVM, physical hardware, Eucalyptus) or on a public cloud like Amazon's EC2.
-  * Setup and run !AppScale: http://code.google.com/p/appscale
+  * Setup and run !AppScale: http://github.com/AppScale/appscale
     * Version 1.5 or greater
   * The code must be modified to find and replace where you see appspot.com to the machine you are running it on (ip:port)
   * Deploy the application
      * appscale-upload-app --file userinfuser
      * or use the upload webpage
   * Change the client side api url to where !AppScale is hosting it
+
+If you need help setting it up, or want commercial support, contact:
+community@appscale.com
 
 = Steps for Dev Server =
 To run the development server do the following:
