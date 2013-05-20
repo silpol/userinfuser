@@ -1,5 +1,5 @@
 #summary Deploy Your Own Gamification Platform
-#labels Phase-Deploy,GoogleAppEngine,AppScale
+#labels Phase-Deploy,Featured,AppScale
 
 = Introduction =
 
@@ -9,18 +9,6 @@ This wiki page describes how to run your own gamification platform using !UserIn
 
 Download the application from [http://userinfuser.googlecode.com/files/userinfuser-0.9.2.tar.gz here]. Or get the latest code from [github https://github.com/nlake44/UserInfuser]
 
-[http://code.google.com/appengine/images/appengine_lowres.png]
-= Steps For Google App Engine =
-  
-  * Go to appspot.com
-  * Sign up and select a unique application identifier
-  * Enable billing (optional)
-  * Download the SDK
-  * Change the application name in the code in userinfuser/serverside/constants.py and userinfuser/app.yaml
-  * There are some sender emails in userinfuser/serverside/signup.py that should be changed to the owner of the app's email (currently raj at cloudcaptive.com). Grep/search for the email in the code and change it to your own.
-  * Upload your application to google's infrastructure
-     * python appcfg.py update your-userinfuser-appname
-  * Change the client side api name to your app identifier
 
 
 [http://posterous.com/getfile/files.posterous.com/wslinks/IJ1mr2yGdPRyPFvBBN81pdfn97XgGcK6OBtUmvnXkIhKWBBxw0I3R7RDEFAl/image001.png] 
@@ -36,11 +24,25 @@ This option is for those who want to host it on their own hardware (Xen, KVM, ph
 
 If you need help setting it up, or want commercial support, contact:
 community@appscale.com
+<wiki:comment>
+[http://code.google.com/appengine/images/appengine_lowres.png]
+= Steps For Google App Engine =
+  
+  * Go to appspot.com
+  * Sign up and select a unique application identifier
+  * Enable billing (optional)
+  * Download the SDK
+  * Change the application name in the code in userinfuser/serverside/constants.py and userinfuser/app.yaml
+  * There are some sender emails in userinfuser/serverside/signup.py that should be changed to the owner of the app's email (currently raj at cloudcaptive.com). Grep/search for the email in the code and change it to your own.
+  * Upload your application to google's infrastructure
+     * python appcfg.py update your-userinfuser-appname
+  * Change the client side api name to your app identifier
+</wiki:comment>
 
 = Steps for Dev Server =
 To run the development server do the following:
   * Modify constants.py by adding your email to the test accounts (TEST_ACCOUNTS)
-  * [http://code.google.com/appengine/downloads.html Download] and unpackage the google Python SDK 
+  * [http://code.google.com/appengine/downloads.html Download] and unpackage the google Python SDK version 1.7.4 (newer versions do not support python2.5)
   * Go into the top level directory
   * Run: "python2.5 dev_appserver.py /path/to/userinfuser/
   * Point your browser to http://localhost:8080
