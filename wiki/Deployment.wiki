@@ -14,8 +14,7 @@ Get the latest code from [https://github.com/nlake44/UserInfuser GitHub]
 = Steps for !AppScale =
 This option is for those who want to host it on their own hardware (Xen, KVM, physical hardware, Eucalyptus) or on a public cloud like Amazon's EC2.
   * Setup and run !AppScale: http://github.com/AppScale/appscale
-    * Version 1.7.0 or greater
-  * The code must be modified to find and replace where you see "appspot.com" to the machine you are running it on (ip:port)
+  * The UserInfuser code must be modified to find and replace where you see "appspot.com" to the machine you are running it on (ip:port)
   * Deploy the application
      * appscale deploy userinfuser
      * or use the upload webpage
