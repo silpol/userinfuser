@@ -7,8 +7,7 @@ This wiki page describes how to run your own gamification platform using !UserIn
 
 = Download The Application =
 
-Get the latest code from [github https://github.com/nlake44/UserInfuser]
-
+Get the latest code from [https://github.com/nlake44/UserInfuser GitHub]
 
 
 [http://upload.wikimedia.org/wikipedia/commons/thumb/7/74/AppScale_Systems_Logo.png/417px-AppScale_Systems_Logo.png] 
