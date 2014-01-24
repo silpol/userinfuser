@@ -7,7 +7,7 @@ This wiki page describes how to run your own gamification platform using !UserIn
 
 = Download The Application =
 
-Download the application from [http://userinfuser.googlecode.com/files/userinfuser-0.9.2.tar.gz here]. Or get the latest code from [github https://github.com/nlake44/UserInfuser]
+Get the latest code from [github https://github.com/nlake44/UserInfuser]
 
 
 
@@ -16,7 +16,7 @@ Download the application from [http://userinfuser.googlecode.com/files/userinfus
 This option is for those who want to host it on their own hardware (Xen, KVM, physical hardware, Eucalyptus) or on a public cloud like Amazon's EC2.
   * Setup and run !AppScale: http://github.com/AppScale/appscale
     * Version 1.7.0 or greater
-  * The code must be modified to find and replace where you see appspot.com to the machine you are running it on (ip:port)
+  * The code must be modified to find and replace where you see "appspot.com" to the machine you are running it on (ip:port)
   * Deploy the application
      * appscale deploy userinfuser
      * or use the upload webpage
