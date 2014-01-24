@@ -37,12 +37,3 @@ community@appscale.com
      * python appcfg.py update your-userinfuser-appname
   * Change the client side api name to your app identifier
 </wiki:comment>
-
-= Steps for Dev Server =
-To run the development server do the following:
-  * Modify constants.py by adding your email to the test accounts (TEST_ACCOUNTS)
-  * [http://code.google.com/appengine/downloads.html Download] and unpackage the google Python SDK version 1.7.4 (newer versions do not support python2.5)
-  * Go into the top level directory
-  * Run: "python2.5 dev_appserver.py /path/to/userinfuser/
-  * Point your browser to http://localhost:8080
-  * Sign up twice with your test account (it will tell you your test account as been activated)
